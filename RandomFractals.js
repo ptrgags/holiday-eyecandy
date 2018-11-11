@@ -1,102 +1,87 @@
-var TILE_SIZE = 50;
-var RED_STEP = 10;
-var RED_OFFSET = 50;
-var RED_VALS = 256;
-var RED_MODULO = RED_VALS - RED_OFFSET; 
-var red_val = RED_OFFSET;
+var POINT_SIZE = 1;
+var SPACING = 200;
+var N = 10;
+var ITERS_PER_FRAME = 50;
+var COUNTDOWN = 1;
+var MAGIC_START = 100;
 
-var TILE_VARIATION = 20;
-
-function draw_tile(center) {
-  ellipse(center.x - TILE_SIZE / 2.0, center.y - TILE_SIZE / 2.0, 0.8 * TILE_SIZE, 0.8 * TILE_SIZE);
+function draw_point(center) {
+  ellipse(center.x - POINT_SIZE, center.y - POINT_SIZE, POINT_SIZE, POINT_SIZE); 
 }
 
-// Move one tile to the right, but stay on screen
-function xform_right(vec) {
-  if (vec.x < width) 
-    return vec.add(createVector(TILE_SIZE, 0));
-  else
-    return vec;
+function init_points(origin) {
+  var result = [];
+  for (var i = 0; i < N; i++) {
+    for (var j = 0; j < N; j++) {
+       var x = i * SPACING + origin.x;
+       var y = j * SPACING + origin.y;
+       result.push(createVector(x, y));
+    }
+  }
+  return result;
 }
 
-// Move one tile to the left, but stay on screen
-function xform_left(vec) {
-  if (vec.x > 0)
-    return vec.add(createVector(-TILE_SIZE, 0));
+function magic() {
+  if (frameCount < MAGIC_START)
+    return 0;
   else
-    return vec;
+    return 0.1 * (frameCount - MAGIC_START);
 }
 
-// Move one tile to the right, but stay on screen
-function xform_down(vec) {
-  if (vec.y < height) 
-    return vec.add(createVector(0, TILE_SIZE));
-  else
-    return vec;
+function shrink(vec) {
+  return vec.mult(0.5);
 }
 
-// Move one tile to the left, but stay on screen
-function xform_up(vec) {
-  if (vec.y > 0)
-    return vec.add(createVector(0, -TILE_SIZE));
-  else
-    return vec;
+function shrink_down(vec) {
+  var next = shrink(vec);
+  next.add(createVector(0, 400 + magic()));
+  return next;
+}
+
+function shrink_right(vec) {
+  var next = shrink(vec);
+  next.add(createVector(400 + 19.0 * magic(), 400 + magic()));
+  return next;
 }
 
 var XFORMS = [
-  xform_right,
-  xform_left,
-  xform_up,
-  xform_down,
+  shrink,
+  shrink_down,
+  shrink_right
 ];
+
 
 function pick_xform() {
   var index = Math.floor(Math.random() * XFORMS.length);
   return XFORMS[index];
 }
 
-function make_tiles(N, center) {
-  var results = [];
-  for (var i = 0; i < N; i++) {
-    var x = Math.floor(Math.random() * TILE_VARIATION - TILE_VARIATION / 2);
-    var y = Math.floor(Math.random() * TILE_VARIATION - TILE_VARIATION / 2);
-    var vec = createVector(x * TILE_SIZE, y * TILE_SIZE);
-    vec.add(center);
-    console.log(vec);
-    results.push(vec);
-  }
-  return results;
-}
-
-var current_tiles;
+var current_points = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(255);
   frameRate(10);
   
-  var center = createVector(width / 2, height / 2);
-  current_tiles = make_tiles(10, center);
-  console.log(current_tiles);
+  var origin = createVector(30, 20);
+  current_points = init_points(origin);
 }
 
 function draw() {
-  // Change the fill color to the next brightest
-  // shade of red, but loop back to a darker shade
-  // if we go above 255
-  stroke(0);
-  fill(red_val, 0, 0);
-  red_val = (red_val - RED_OFFSET + RED_STEP) % RED_MODULO + RED_OFFSET;
+  fill(0)
+  noStroke();
   
-  var next_tiles = [];
-  
-  // Draw tiles
-  for (var tile of current_tiles) {
-    console.log(tile);
-    draw_tile(tile);
-  
-    // Apply one of the transformations randomly
-    next_tiles.push(pick_xform()(tile));
+  for (var i = 0; i < ITERS_PER_FRAME; i++) {
+    var next_points = [];  
+    
+    // Draw points
+    for (var point of current_points) {
+      if (frameCount > COUNTDOWN)
+        draw_point(point);
+      // Pick the xform for this iteration
+      var xform = pick_xform(); 
+      next_points.push(xform(point));
+    }
+    current_points = next_points;
   }
-  current_tiles = next_tiles;
 }
