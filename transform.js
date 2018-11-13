@@ -110,30 +110,30 @@ class MatrixTransform {
             return new TransformationChain([this, xform]);
         }
     }
-}
 
-let translate = function(x, y) {
-    return new MatrixTransform([
-        [1, 0, x],
-        [0, 1, y],
-        [0, 0, 1]
-    ]);
-}
+    static translate(x, y) {
+        return new MatrixTransform([
+            [1, 0, x],
+            [0, 1, y],
+            [0, 0, 1]
+        ]);
+    }
 
-let rotate = function(theta_radians) {
-    let st = Math.sin(theta_radians);
-    let ct = Math.cos(theta_radians);
-    return new MatrixTransform([
-        [ct, -st, 0],
-        [st, ct, 0],
-        [0, 0, 1]
-    ]);
-}
+    static rotate(theta_radians) {
+        let st = Math.sin(theta_radians);
+        let ct = Math.cos(theta_radians);
+        return new MatrixTransform([
+            [ct, -st, 0],
+            [st, ct, 0],
+            [0, 0, 1]
+        ]);
+    }
 
-let scale = function(sx, sy) {
-    return new MatrixTransform([
-        [sx, 0, 0],
-        [0, sy, 0],
-        [0, 0, 1]
-    ]);
+    static scale(sx, sy) {
+        return new MatrixTransform([
+            [sx, 0, 0],
+            [0, sy, 0],
+            [0, 0, 1]
+        ]);
+    }
 }
