@@ -27,6 +27,7 @@ class Polygon extends Tile {
      * the point list should not repeat the first vertex.
      */
     constructor(points) {
+        super();
         this.points = points;
     }
 
@@ -43,5 +44,24 @@ class Polygon extends Tile {
         for (let point of this.points)
             gfx.vertex(point.x, point.y);
         gfx.endShape(CLOSE);
+    }
+}
+
+class Circle extends Tile {
+    constructor(center, radius) {
+        super();
+        this.center = center;
+        this.radius = radius;
+    }
+
+    apply_transform(xform) {
+        let new_center = xform.transform(this.center);
+        //TODO: how to update the radius?
+
+        return new Circle(new_center, this.radius);
+    }
+
+    draw(gfx) {
+        gfx.ellipse(this.center.x, this.center.y, this.radius, this.radius);
     }
 }

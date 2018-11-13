@@ -1,87 +1,73 @@
-var POINT_SIZE = 1;
-var SPACING = 200;
-var N = 10;
-var ITERS_PER_FRAME = 50;
-var COUNTDOWN = 1;
-var MAGIC_START = 100;
+const TILE_SIZE = 50;
+const ROOT3 = Math.sqrt(3);
+const NUM_TILES = 20;
 
-function draw_point(center) {
-  ellipse(center.x - POINT_SIZE, center.y - POINT_SIZE, POINT_SIZE, POINT_SIZE); 
-}
-
-function init_points(origin) {
-  var result = [];
-  for (var i = 0; i < N; i++) {
-    for (var j = 0; j < N; j++) {
-       var x = i * SPACING + origin.x;
-       var y = j * SPACING + origin.y;
-       result.push(createVector(x, y));
-    }
-  }
-  return result;
-}
-
-function magic() {
-  if (frameCount < MAGIC_START)
-    return 0;
-  else
-    return 0.1 * (frameCount - MAGIC_START);
-}
-
-function shrink(vec) {
-  return vec.mult(0.5);
-}
-
-function shrink_down(vec) {
-  var next = shrink(vec);
-  next.add(createVector(0, 400 + magic()));
-  return next;
-}
-
-function shrink_right(vec) {
-  var next = shrink(vec);
-  next.add(createVector(400 + 19.0 * magic(), 400 + magic()));
-  return next;
-}
-
-var XFORMS = [
-  shrink,
-  shrink_down,
-  shrink_right
+let XFORMS = [
+    MatrixTransform.translate(TILE_SIZE, 0),
+    MatrixTransform.translate(-TILE_SIZE, 0),
+    MatrixTransform.translate(1.5 * TILE_SIZE, ROOT3/2 * TILE_SIZE),
+    MatrixTransform.translate(-1.5 * TILE_SIZE, -ROOT3/2 * TILE_SIZE),
+    MatrixTransform.translate(1.5 * TILE_SIZE, -ROOT3/2 * TILE_SIZE),
+    MatrixTransform.translate(-1.5 * TILE_SIZE, ROOT3/2 * TILE_SIZE),
 ];
 
-
-function pick_xform() {
-  var index = Math.floor(Math.random() * XFORMS.length);
-  return XFORMS[index];
+function pick_xform(xform_list) {
+    var index = Math.floor(Math.random() * xform_list.length);
+    return xform_list[index];
 }
 
-var current_points = [];
+function center_circle() {
+    return new Circle(createVector(width / 2, height / 2), TILE_SIZE);
+}
+
+function make_tiles() {
+    let results = [];
+    for (let i = 0; i < NUM_TILES; i++)
+        results.push(center_circle());
+    return results;
+}
+
+var fill_color = 0;
+var tiles = [];
+var gfx;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  background(255);
-  frameRate(10);
-  
-  var origin = createVector(30, 20);
-  current_points = init_points(origin);
+    createCanvas(windowWidth, windowHeight);
+    background(255);
+    frameRate(10);
+
+    gfx = createGraphics(width, height);;
+
+    tiles = make_tiles();
 }
 
+function outside(coords) {
+    return coords.x < 0  
+        || coords.x > width 
+        || coords.y < 0 
+        || coords.y > height;
+}
+
+
 function draw() {
-  fill(0)
-  noStroke();
-  
-  for (var i = 0; i < ITERS_PER_FRAME; i++) {
-    var next_points = [];  
-    
-    // Draw points
-    for (var point of current_points) {
-      if (frameCount > COUNTDOWN)
-        draw_point(point);
-      // Pick the xform for this iteration
-      var xform = pick_xform(); 
-      next_points.push(xform(point));
+    gfx.fill(0, 128, fill_color)
+    gfx.noStroke();
+
+    fill_color += 10;
+    fill_color %= 256;
+
+    let new_tiles = [];
+    for (let tile of tiles) {
+        tile.draw(gfx);
+        xform = pick_xform(XFORMS);
+        let new_tile = tile.apply_transform(xform);
+
+        if (outside(new_tile.center))
+            new_tiles.push(center_circle());
+        else
+            new_tiles.push(new_tile);
     }
-    current_points = next_points;
-  }
+    tiles = new_tiles;
+
+    image(gfx, 0, 0);
 }

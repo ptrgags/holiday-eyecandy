@@ -65,9 +65,11 @@ class MatrixTransform {
     }
 
     transform(vec) {
+        let homogeneous = createVector(vec.x, vec.y, 1);
+
         let result = [];
         for (let row of this.coeffs) {
-            let product = createVector(...row).dot(vec);
+            let product = createVector(...row).dot(homogeneous);
             result.push(product);
         }
         return createVector(result[0], result[1]);
