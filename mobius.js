@@ -46,11 +46,28 @@ class MobiusTransform extends Transform {
         }
     }
 
+    /**
+     *        1z + 0
+     * f(z) = ------ = z
+     *        0z + 1
+     */
     static identity() {
-        let a = new Complex(1, 0);
-        let b = new Complex(0, 0);
-        let c = new Complex(0, 0);
-        let d = new Complex(0, 1);
+        let a = new Complex(createVector(1, 0));
+        let b = new Complex(createVector(0, 0));
+        let c = new Complex(createVector(0, 0));
+        let d = new Complex(createVector(1, 0));
+        return new MobiusTransform([a, b, c, d]);
+    }
+
+    /**
+     * Implement a similtude by only using the top of the fraction only
+     *                 az + b
+     * f(z) = az + b = ------
+     *                 cz + d
+     */
+    static simultude(a, b) {
+        let c = new Complex(createVector(0, 0));
+        let d = new Complex(createVector(1, 0));
         return new MobiusTransform([a, b, c, d]);
     }
 }

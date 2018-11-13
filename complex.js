@@ -30,10 +30,10 @@ class Complex {
     }
 
     /**
-     * |z|^2 = z * z.conj
+     * |z|^2 = z * z.conj = z dot z
      */
     get modulus_squared() {
-        return this.mult(this.conj);
+        return this.coords.dot(this.coords);
     }
 
     /**
@@ -72,7 +72,7 @@ class Complex {
 
         let a = this.real * other.real 
             + this.i_squared * this.imag * other.imag;
-        let b = this.real * other.imag + this.imag + other.real;
+        let b = this.real * other.imag + this.imag * other.real;
 
         let new_vec = createVector(a, b);
         return new Complex(new_vec, this.i_squared);
@@ -88,7 +88,7 @@ class Complex {
         // Numerator is a Complex number
         let numerator = this.mult(other.conj);
         // Denominator is a Number
-        let denominator = other.modulus_squared();
+        let denominator = other.modulus_squared;
 
         let new_coords = numerator.coords.div(denominator);
         return new Complex(new_coords, this.i_squared); 
