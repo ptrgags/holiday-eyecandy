@@ -8,8 +8,8 @@
  * This class wraps a p5.Vector
  */
 class Complex {
-    constructor(coords, i_squared=-1) {
-        this.coords = coords;
+    constructor(a, b, i_squared=-1) {
+        this.coords = createVector(a, b);
         this.i_squared = i_squared;
     }
 
@@ -26,7 +26,7 @@ class Complex {
      */
     get conj() {
         let new_coords = createVector(this.real, -this.imag);
-        return new Complex(new_coords, this.i_squared);
+        return new Complex(new_coords.x, new_coords.y, this.i_squared);
     }
 
     /**
@@ -47,20 +47,34 @@ class Complex {
     // TODO: How to generalize arg(z)?
 
     /**
+     * tranformation f(z) = -z
+     */
+    get neg() {
+        let new_coords = this.coords.mult(-1);
+        return new Complex(new_coords.x, new_coords.y, this.i_squared);
+    }
+
+    /**
      * Complex numbers add like vectors do
      */
     add(other) {
         if (other.i_squared != this.i_squared)
             throw new TypeError("add: unequal i^2 values!");
 
-        return new Complex(this.coords.add(other.coords), this.i_squared);
+        let new_coords = this.coords.add(other.coords);
+        return new Complex(new_coords.x, new_coords.y, this.i_squared);
     }
 
     sub(other) {
         if (other.i_squared != this.i_squared)
             throw new TypeError("sub: unequal i^2 values!");
 
-        return new Complex(this.coords.sub(other.coords), this.i_squared);
+        let new_coords = this.coords.sub(other.coords);
+        return new Complex(new_coords.x, new_coords.y, this.i_squared);
+    }
+
+    toString() {
+        return `(${this.real}+${this.imag}i)`
     }
 
     /**
@@ -74,8 +88,7 @@ class Complex {
             + this.i_squared * this.imag * other.imag;
         let b = this.real * other.imag + this.imag * other.real;
 
-        let new_vec = createVector(a, b);
-        return new Complex(new_vec, this.i_squared);
+        return new Complex(a, b, this.i_squared);
     }
 
     /**
@@ -91,6 +104,26 @@ class Complex {
         let denominator = other.modulus_squared;
 
         let new_coords = numerator.coords.div(denominator);
-        return new Complex(new_coords, this.i_squared); 
+        return new Complex(new_coords.x, new_coords.y, this.i_squared); 
+    }
+
+    static one(i_squared=-1) {
+        return new Complex(1, 0, i_squared);
+    }
+
+    static neg_one(i_squared=-1) {
+        return new Complex(-1, 0, i_squared);
+    }
+
+    static i(i_squared=-1) {
+        return new Complex(0, 1, i_squared);
+    }
+
+    static neg_i(i_squared=-1) {
+        return new Complex(0, -1, i_squared);
+    }
+
+    static zero(i_squared=-1) {
+        return new Complex(0, 0, i_squared);
     }
 }
