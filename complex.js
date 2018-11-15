@@ -105,8 +105,8 @@ class Complex {
         // Denominator is a Number
         let denominator = other.modulus_squared;
 
-        let a = numerator.x / denominator;
-        let b = numerator.y / denominator;
+        let a = numerator.real / denominator;
+        let b = numerator.imag / denominator;
 
         return new Complex(a, b, this.i_squared); 
     }
@@ -129,5 +129,11 @@ class Complex {
 
     static zero(i_squared=-1) {
         return new Complex(0, 0, i_squared);
+    }
+
+    static from_polar(r, theta, i_squared=-1) {
+        let a = r * Math.cos(theta);
+        let b = r * Math.sin(theta);
+        return new Complex(a, b, i_squared);
     }
 }
