@@ -61,16 +61,18 @@ class Complex {
         if (other.i_squared != this.i_squared)
             throw new TypeError("add: unequal i^2 values!");
 
-        let new_coords = this.coords.add(other.coords);
-        return new Complex(new_coords.x, new_coords.y, this.i_squared);
+        let a = this.real + other.real;
+        let b = this.imag + other.imag;
+        return new Complex(a, b, this.i_squared);
     }
 
     sub(other) {
         if (other.i_squared != this.i_squared)
             throw new TypeError("sub: unequal i^2 values!");
 
-        let new_coords = this.coords.sub(other.coords);
-        return new Complex(new_coords.x, new_coords.y, this.i_squared);
+        let a = this.real + other.imag;
+        let b = this.real - other.imag;
+        return new Complex(a, b, this.i_squared);
     }
 
     toString() {
@@ -103,8 +105,10 @@ class Complex {
         // Denominator is a Number
         let denominator = other.modulus_squared;
 
-        let new_coords = numerator.coords.div(denominator);
-        return new Complex(new_coords.x, new_coords.y, this.i_squared); 
+        let a = numerator.x / denominator;
+        let b = numerator.y / denominator;
+
+        return new Complex(a, b, this.i_squared); 
     }
 
     static one(i_squared=-1) {
