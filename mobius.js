@@ -175,4 +175,23 @@ class MobiusTransform extends Transform {
             Complex.i(), Complex.zero()
         ]);
     }
+
+    /**
+     * The transform f(z) = -z
+     *
+     * This is implemented as
+     *
+     * [i  0] to have determinant 1
+     * [0 -i]
+     *
+     * This is a 180 degree rotation around the z-axis on the sphere
+     *
+     * This is a 180 degree rotation about the origin on the plane
+     */
+    static z180() {
+        return new MobiusTransform([
+            Complex.i(), Complex.zero(),
+            Complex.zero(), Complex.i().neg,
+        ]);
+    }
 }

@@ -124,13 +124,6 @@ class Cline extends Tile {
             this.center.y, 
             2.0 * this.radius, 
             2.0 * this.radius);
-
-        // Show which way is right
-        gfx.line(
-            this.center.x, 
-            this.center.y, 
-            this.center.x + this.radius, 
-            this.center.y);
     }
 
     toString() {

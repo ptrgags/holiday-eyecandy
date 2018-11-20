@@ -58,8 +58,7 @@ class Complex {
      * tranformation f(z) = -z
      */
     get neg() {
-        let new_coords = this.coords.mult(-1);
-        return new Complex(new_coords.x, new_coords.y, this.i_squared);
+        return new Complex(-this.real, -this.imag, this.i_squared);
     }
 
     /**
