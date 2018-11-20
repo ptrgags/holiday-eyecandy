@@ -3,18 +3,64 @@ const NUM_TILES = 100;
 
 var XFORMS = [];
 
-function make_transforms() {
-    let R = MobiusTransform.y90();
-    let R_inv = R.inverse;
-    let T = MobiusTransform.similitude(
-        Complex.from_polar(1.1, 0.1), Complex.zero());
-    let SPIRAL = R.then(T).then(R_inv);
-    XFORMS = [
-        SPIRAL, SPIRAL.inverse
-        //T, T.inverse
+function make_tiles() {
+    return [
+        new Cline(createVector(-2, 0), 1, 'red'),
+        new Cline(createVector(2, 0), 1, 'green'),
+        //new Cline(createVector(-1, -1), 1, 'orange'),
+        //new Cline(createVector(1, -1), 1, 'blue'),
     ];
 }
 
+function pair_circles(c1, c2) {
+    // First, map c1 to a unit circle at the origin
+    let P = Complex.from_vec(c1.center);
+    let to_center = MobiusTransform.pure_translation(P.neg);
+    let normalize_scale = MobiusTransform.pure_scale(1.0 / c1.radius);
+
+    //map inside to outside using 1/z
+    let inv = MobiusTransform.x180();
+
+
+    // Scale up to and move to second circle
+    let scale = MobiusTransform.pure_scale(c2.radius);
+    let Q = Complex.from_vec(c2.center);
+    let recenter = MobiusTransform.pure_translation(Q);
+
+
+    // Combine the 5 steps into one matrix:
+    return to_center
+        .then(normalize_scale)
+        .then(inv)
+        .then(scale)
+        .then(recenter);
+}
+
+function make_transforms(circles) {
+    if (circles.length % 2 == 1)
+        throw new TypeError("There must be an even number of circles");
+
+    // number of pairs
+    let N = circles.length / 2;
+
+    // Lists of transformations
+    let forward = [];
+    let inverse = [];
+
+    for (let i = 0; i < N; i++) {
+        let C = tiles[i];
+        let c = tiles[i + N];
+        // Pair C -> c
+        let T = pair_circles(C, c);
+        forward.push(T);
+
+        // Also keep the inverse transformation
+        let T_inv = pair_circles(c, C);
+        inverse.push(T_inv);
+    }
+
+    XFORMS = forward.concat(inverse);
+}
 
 function pick_xform(xform_list) {
     var index = Math.floor(Math.random() * xform_list.length);
@@ -27,17 +73,6 @@ function rand_value(scale) {
     return scale * unit_rand;
 }
 
-function make_tiles() {
-    let results = [];
-    for (let i = 0; i < NUM_TILES; i++) {
-        let x = rand_value(2);
-        let y = rand_value(2);
-        let pos = createVector(x, y);
-        results.push(new Circle(pos, TILE_SIZE));
-    }
-    return results;
-}
-
 var fill_color = 0;
 var tiles = [];
 var gfx;
@@ -47,17 +82,10 @@ function setup() {
     background(255);
     frameRate(10);
 
-    make_transforms();
-
-    gfx = createGraphics(width, height);;
     tiles = make_tiles();
-}
+    make_transforms(tiles);
 
-function outside(coords) {
-    return coords.x < 0  
-        || coords.x > width 
-        || coords.y < 0 
-        || coords.y > height;
+    gfx = createGraphics(width, height);
 }
 
 // Percent of the height that the unit circle's radius should be

@@ -52,7 +52,7 @@ class MobiusTransform extends Transform {
 
     then(xform) {
         if (xform instanceof MobiusTransform) {
-            return this.multiply_xforms(xform);
+            return xform.multiply_xforms(this);
         } else if (xform instanceof TransformationChain) {
             return xform.after(this);
         } else {
@@ -101,7 +101,10 @@ class MobiusTransform extends Transform {
     static x90() {
         let i = new Complex(0, 1);
         let neg_one = new Complex(-1, 0);
-        return new MobiusTransform([i, neg_one, neg_one, i]);
+        return new MobiusTransform([
+            complex.i(), complex.neg_one(),
+            complex.neg_one(), complex.i(),
+        ]);
     }
 
     /**
@@ -122,6 +125,54 @@ class MobiusTransform extends Transform {
         return new MobiusTransform([
             Complex.i(), Complex.zero(),
             Complex.zero(), Complex.one()
+        ]);
+    }
+
+    /**
+     * Pure translation by b
+     *
+     * this matrix will always have determinant 1
+     */
+    static pure_translation(b) {
+        return new MobiusTransform([
+            Complex.one(), b,
+            Complex.zero(), Complex.one()
+        ]);
+    }
+
+    /**
+     * Pure scaling by a real number
+     *
+     * This is normalized to have determinant 1
+     *
+     * TODO: Still need to define Complex.sqrt()
+     */
+    static pure_scale(k) {
+        let root = Complex.from_real(Math.sqrt(k));
+        return new MobiusTransform([
+            root, Complex.zero(),
+            Complex.zero(), root.inv
+        ]);
+    }
+
+    /**
+     * The transformation f(z) = 1/z
+     *
+     * This is implemented as
+     *
+     * [0 i] so it will have determinant 1 intstead of -1
+     * [i 0]
+     *
+     * On the sphere, this is a 180 degree rotation around the
+     * x-axis.
+     *
+     * On the complex plane, this is an inversion in the unit circle
+     * followed by a complex conjugation.
+     */
+    static x180() {
+        return new MobiusTransform([
+            Complex.zero(), Complex.i(),
+            Complex.i(), Complex.zero()
         ]);
     }
 }

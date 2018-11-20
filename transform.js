@@ -102,8 +102,8 @@ class MatrixTransform {
 
     then(xform) {
         if (xform instanceof MatrixTransform) {
-            // Create a new MatrixTransform by multiplying matrices
-            return this.multiply_matrices(xform);
+            // Multiply xform on the left
+            return xform.multiply_matrices(this);
         } else if (xform instanceof TransformationChain) {
             // Prepend to the transformation chain
             return xform.after(this);

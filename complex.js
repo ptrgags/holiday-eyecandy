@@ -30,6 +30,14 @@ class Complex {
     }
 
     /**
+     * Get the inverse of this complex number, 
+     * that is 1/z
+     */
+    get inv() {
+        return Complex.one().div(this)
+    }
+
+    /**
      * |z|^2 = z * z.conj = z dot z
      */
     get modulus_squared() {
@@ -70,13 +78,13 @@ class Complex {
         if (other.i_squared != this.i_squared)
             throw new TypeError("sub: unequal i^2 values!");
 
-        let a = this.real + other.imag;
-        let b = this.real - other.imag;
+        let a = this.real - other.real;
+        let b = this.imag - other.imag;
         return new Complex(a, b, this.i_squared);
     }
 
     toString() {
-        return `(${this.real}+${this.imag}i)`
+        return `(${this.real.toPrecision(3)}+${this.imag.toPrecision(3)}i)`
     }
 
     /**
@@ -135,5 +143,13 @@ class Complex {
         let a = r * Math.cos(theta);
         let b = r * Math.sin(theta);
         return new Complex(a, b, i_squared);
+    }
+
+    static from_real(r, i_squared=-1) {
+        return new Complex(r, 0, i_squared);
+    }
+
+    static from_vec(v, i_squared=-1) {
+        return new Complex(v.x, v.y, i_squared);
     }
 }
