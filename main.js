@@ -1,6 +1,9 @@
 let SKETCHES = [
-    new DoubleSpiral(),
     new HexagonTiling(),
+    new ParabolicTracks(),
+    new EllipticTracks(),
+    new HyperbolicTracks(),
+    new LoxodromicTracks()
 ];
 
 var sketch_index = 0;

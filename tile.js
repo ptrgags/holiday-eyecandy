@@ -89,6 +89,26 @@ class Circle extends Tile {
     }
 }
 
+class Trace extends Tile {
+    constructor(pos, last_pos=null) {
+        super();
+        this.pos = pos;
+        this.last_pos = last_pos;
+    }
+
+    apply_transform(xform) {
+        let new_pos = xform.transform(this.pos);
+        return new Trace(new_pos, this.pos);
+    }
+
+    draw(gfx) {
+        gfx.stroke(255);
+        gfx.noFill();
+        if (this.last_pos !== null)
+            gfx.line(this.last_pos.x, this.last_pos.y, this.pos.x, this.pos.y);
+    }
+}
+
 /**
  * Generalized Circle/Line for use with Mobius transforms
  */
