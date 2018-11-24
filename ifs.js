@@ -7,6 +7,7 @@ class IFS {
      */
     constructor(xforms) {
         this.xforms = xforms;
+        this.labels = "abcdefghijklmnopqrstuvwxyz".substring(0, xforms.length);
     }
 
     /**
@@ -18,6 +19,16 @@ class IFS {
         for (let xform of this.xforms)
             inverses.push(xform.inverse);
         this.xforms = this.xforms.concat(inverses);
+        this.labels += this.labels.toUpperCase();
+    }
+
+    /**
+     * Get a transformation given an index. The index is taken mod
+     * the number of transformations so we never get an undefined value
+     */
+    get_xform(i) {
+        let index = mod(i, this.num_xforms); 
+        return this.xforms[index];
     }
 
     /**
@@ -42,5 +53,10 @@ class IFS {
     get rand_xform() {
         var index = Math.floor(Math.random() * this.xforms.length);
         return this.xforms[index];
+    }
+
+    get_label(i) {
+        let index = mod(i, this.num_xforms);
+        return this.labels.charAt(index);
     }
 }

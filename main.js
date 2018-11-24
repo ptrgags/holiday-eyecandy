@@ -22,6 +22,9 @@ let SKETCHES = [
 
     // Apollonian gasket circle
     new AppolonianGasket(),
+
+    // Nested circle fractal
+    new SchottkyCircles(),
 ];
 
 var sketch_index = 0;

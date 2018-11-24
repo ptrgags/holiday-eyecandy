@@ -133,11 +133,10 @@ class Trace extends Tile {
  * Generalized Circle/Line for use with Mobius transforms
  */
 class Cline extends Tile {
-    constructor(center, radius, color) {
+    constructor(center, radius) {
         super();
         this.center = center;
         this.radius = radius;
-        this.color = color;
     }
 
     apply_transform(xform) {
@@ -166,14 +165,10 @@ class Cline extends Tile {
             xform.transform(right_point.coords));
         let new_radius = Q.sub(right_xformed).modulus;
 
-        return new Cline(new_center, new_radius, this.color);
+        return new Cline(new_center, new_radius);
     }
 
     draw(gfx) {
-        // Fill in the circle
-        //gfx.fill(this.color);
-        //gfx.stroke(0);
-
         //TODO: How to handle lines?
         gfx.ellipse(
             this.center.x, 

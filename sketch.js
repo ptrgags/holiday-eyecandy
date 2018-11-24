@@ -3,8 +3,8 @@ class Sketch {
         this.gfx = createGraphics(width, height);
         this.width = width;
         this.height = height;
-        this.xforms = this.make_xforms();
         this.tiles = this.make_tiles();
+        this.xforms = this.make_xforms();
         this.renderer = this.make_renderer(this.xforms, this.tiles);
     }
 
