@@ -3,7 +3,15 @@ let SKETCHES = [
     new ParabolicTracks(),
     new EllipticTracks(),
     new HyperbolicTracks(),
-    new LoxodromicTracks()
+    new LoxodromicTracks(),
+    new ParabolicTracks(0),
+    new EllipticTracks(0),
+    new HyperbolicTracks(0),
+    new LoxodromicTracks(0),
+    new ParabolicTracks(180),
+    new EllipticTracks(180),
+    new HyperbolicTracks(180),
+    new LoxodromicTracks(180)
 ];
 
 var sketch_index = 0;

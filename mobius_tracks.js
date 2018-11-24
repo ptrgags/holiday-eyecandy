@@ -1,7 +1,8 @@
 class MobiusTracks extends ComplexPlaneSketch {
-    constructor() {
+    constructor(rotate_amount=90) {
         super();
         this.NUM_TILES = 1000;
+        this.rotate = rotate_amount;
     }
 
     make_renderer(xforms, tiles) {
@@ -10,13 +11,16 @@ class MobiusTracks extends ComplexPlaneSketch {
 
     make_xforms() {
         // The subclass picks the type of mobius transform
-        let mobius = this.mobius_xform;
+        var mobius = this.mobius_xform;
 
         // Rotate the sphere so inf -> 1 and 0 -> -1
-        let rotate = MobiusTransform.y90();
-        let combined = mobius.conjugate_by(rotate);
+        if (this.rotate === 90) {
+            mobius = mobius.conjugate_by(MobiusTransform.y90());
+        } else if (this.rotate === 180) {
+            mobius = mobius.conjugate_by(MobiusTransform.x180());
+        }
         
-        return new IFS([combined, combined.inverse]);
+        return new IFS([mobius, mobius.inverse]);
     }
 
     get mobius_xform() {
