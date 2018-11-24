@@ -5,6 +5,8 @@ var XFORMS = [];
 
 var COLORS = ['red', 'orange', 'green', 'blue'];
 
+var LABELS = "abAB"
+
 function make_tiles() {
     return [
         new Cline(createVector(-1, -1), 1, 'red'),
@@ -101,11 +103,14 @@ function render_circles(gfx, circles, max_depth) {
         gfx.fill(COLORS[index]);
         gfx.stroke(0);
         circle.draw(gfx);
-        render_circle_helper(gfx, xform, circle, index, max_depth);
+        let label = LABELS.charAt(i);
+        console.log("=====");
+        console.log(`${label}: ${circle.toString()} ${COLORS[index]}`);
+        render_circle_helper(gfx, xform, circle, index, max_depth, label);
     }
 }
 
-function render_circle_helper(gfx, xform, circle, index, depth) {
+function render_circle_helper(gfx, xform, circle, index, depth, label) {
     if (depth == 0)
         return;
 
@@ -116,19 +121,27 @@ function render_circle_helper(gfx, xform, circle, index, depth) {
     let N = tiles.length / 2;
     for (let i = -(N - 1); i <= (N - 1); i++) {
         let new_index = mod(index + i, 2 * N);
+        console.log(index);
+        console.log(new_index);
         let new_xform = XFORMS[new_index];
         
         let xform_chain = new_xform.then(xform);
         gfx.fill(COLORS[new_index]);
         gfx.stroke(0);
-        circle.apply_transform(xform_chain).draw(gfx);
+        let new_circle = circle.apply_transform(xform_chain);
+        new_circle.draw(gfx);
+
+        let new_label = label + LABELS[new_index];
+
+        console.log(`${new_label}: ${new_circle.toString()}`);
 
         render_circle_helper(
             gfx, 
             new_xform.then(xform),
             circle,
             new_index,
-            depth - 1);
+            depth - 1,
+            new_label);
     }
 }
 
@@ -165,7 +178,7 @@ function setup() {
     gfx = createGraphics(width, height);
 
     start_complex_plane(gfx);
-    let depth = 4;
+    let depth = 1;
     render_circles(gfx, tiles, depth);
     /*
     render_circles(gfx, tiles[0], 2, depth);
