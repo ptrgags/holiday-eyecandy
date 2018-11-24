@@ -19,6 +19,9 @@ let SKETCHES = [
     // Loxodromic tilings: Spiral and double spiral
     new LoxodromicTracks(0),
     new LoxodromicTracks(),
+
+    // Apollonian gasket circle
+    new AppolonianGasket(),
 ];
 
 var sketch_index = 0;

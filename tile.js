@@ -18,6 +18,26 @@ class Tile {
     }
 }
 
+class Point extends Tile {
+    constructor(pos) {
+        super();
+        this.pos = pos;
+        this.WIDTH = 0.001;
+    }
+
+    apply_transform(xform) {
+        let new_pos = xform.transform(this.pos);
+        return new Point(new_pos);
+    }
+
+    draw(gfx) {
+        gfx.stroke(255);
+        gfx.fill(255);
+        gfx.ellipse(this.pos.x, this.pos.y, this.WIDTH, this.WIDTH);
+    }
+
+}
+
 /**
  * Polygon class
  */

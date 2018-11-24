@@ -1,7 +1,7 @@
 class HexagonTiling extends ComplexPlaneSketch {
     constructor() {
         super();
-        this.NUM_TILES = 20;
+        this.NUM_TILES = 1000;
         this.TILE_RADIUS = 0.1;
         this.ROOT3 = Math.sqrt(3);
     }
