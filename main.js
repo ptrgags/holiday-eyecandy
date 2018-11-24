@@ -1,6 +1,6 @@
 let SKETCHES = [
+    new DoubleSpiral(),
     new HexagonTiling(),
-    new DoubleSpiral() 
 ];
 
 var sketch_index = 0;
@@ -18,4 +18,22 @@ function draw() {
     let sketch = SKETCHES[sketch_index];
     sketch.draw();
     sketch.display();
+}
+
+function cycle_right() {
+    sketch_index = mod(sketch_index + 1, SKETCHES.length);
+    SKETCHES[sketch_index].setup(width, height);
+}
+
+function cycle_left() {
+    sketch_index = mod(sketch_index - 1, SKETCHES.length);
+    SKETCHES[sketch_index].setup(width, height);
+}
+
+function keyReleased() {
+    if (keyCode === RIGHT_ARROW) {
+        cycle_right();
+    } else if (keyCode === LEFT_ARROW) {
+        cycle_left();
+    }
 }

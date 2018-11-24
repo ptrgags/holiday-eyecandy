@@ -1,7 +1,7 @@
 class DoubleSpiral extends ComplexPlaneSketch {
     constructor() {
         super();
-        this.NUM_TILES = 100;
+        this.NUM_TILES = 1000;
         this.TILE_SIZE = 0.01;
     }
 
