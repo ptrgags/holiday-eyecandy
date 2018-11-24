@@ -50,6 +50,11 @@ class MobiusTransform extends Transform {
         return new MobiusTransform(results); 
     }
 
+    /**
+     * Chain transformations.
+     * If the other xform is a MobiusTransform, they can be combines
+     * via complex matrix multiplication
+     */
     then(xform) {
         if (xform instanceof MobiusTransform) {
             return xform.multiply_xforms(this);
@@ -59,6 +64,16 @@ class MobiusTransform extends Transform {
             // Start a transformation chain
             return new TransformationChain([this, xform]);
         }
+    }
+
+    /**
+     * If this is transform T, and xform is another invertible mobius 
+     * transformation R, 
+     * compute T' = R * T * R^-1 to compute T in the space of R
+     */
+    conjugate_by(xform) {
+        let inv = xform.inverse;
+        return inv.then(this).then(xform);
     }
 
     toString() {

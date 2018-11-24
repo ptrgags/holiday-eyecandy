@@ -98,7 +98,7 @@ function render_circles(gfx, circles, max_depth) {
     for (let i = 0; i < circles.length; i++) {
         let index = mod(i + N, 2 * N);
         let xform = XFORMS[index];
-        let circle = circles[i];
+        let circle = new Cline(createVector(0, 0), 1);//circles[i];
 
         gfx.fill(COLORS[index]);
         gfx.stroke(0);
@@ -178,7 +178,7 @@ function setup() {
     gfx = createGraphics(width, height);
 
     start_complex_plane(gfx);
-    let depth = 1;
+    let depth = 5;
     render_circles(gfx, tiles, depth);
     /*
     render_circles(gfx, tiles[0], 2, depth);

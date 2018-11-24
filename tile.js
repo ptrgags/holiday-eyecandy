@@ -65,6 +65,7 @@ class Circle extends Tile {
     }
 
     draw(gfx) {
+        gfx.noStroke();
         gfx.ellipse(
             this.center.x, 
             this.center.y, 
