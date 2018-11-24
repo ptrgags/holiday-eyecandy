@@ -32,7 +32,7 @@ class Polygon extends Tile {
     }
 
     apply_transform(xform) {
-        new_points = [];
+        let new_points = [];
         for (let point of this.points)
             new_points.push(xform.transform(point));
 
@@ -40,10 +40,25 @@ class Polygon extends Tile {
     }
 
     draw(gfx) {
-        gfx.beginShape(POINTS);
+        gfx.beginShape();
         for (let point of this.points)
             gfx.vertex(point.x, point.y);
         gfx.endShape(CLOSE);
+    }
+
+    toString() {
+        let coords = this.points.map((p) => `(${p.x}, ${p.y})`).join('\n');
+        return `Polygon\n${coords}`;
+    }
+
+    /**
+     * Make a regular polygon using the n roots of unity
+     * the points will be arranged around the unit circle
+     */
+    static make_regular(n) {
+        let roots_of_unity = Complex.one().roots(n);
+        let vertices = roots_of_unity.map((x) => x.coords);
+        return new Polygon(vertices);
     }
 }
 

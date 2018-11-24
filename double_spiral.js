@@ -13,7 +13,7 @@ class DoubleSpiral extends ComplexPlaneSketch {
         // Compute rotate * spiral * rotate^-1
         let loxodromic = spiral.conjugate_by(rotate);
         
-        return new TransformList([loxodromic, loxodromic.inverse]);
+        return new IFS([loxodromic, loxodromic.inverse]);
     }
 
     make_tiles() {

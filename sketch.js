@@ -72,7 +72,7 @@ class ComplexPlaneSketch extends Sketch {
         this.gfx.translate(this.width / 2, this.height / 2);
 
         // Scale and flip the y-coordinate
-        this.gfx.scale(-this.scale_factor, -1 * this.scale_factor);
+        this.gfx.scale(this.scale_factor, -1 * this.scale_factor);
 
         // Fix the stroke weight
         this.gfx.strokeWeight(1.0 / this.scale_factor);

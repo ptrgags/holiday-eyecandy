@@ -100,6 +100,17 @@ class MatrixTransform {
         return new MatrixTransform(result_rows);
     }
 
+    get det() {
+        let [
+            [a, b, c],
+            [d, e, f],
+            [g, h, i]
+        ] = this.coeffs;
+
+        return (a * e * i) + (b * f * g) + (c * d * h) 
+            - (a * f * h) - (b * d * i) - (c * e * g);
+    }
+
     then(xform) {
         if (xform instanceof MatrixTransform) {
             // Multiply xform on the left

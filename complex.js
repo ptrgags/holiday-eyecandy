@@ -52,7 +52,35 @@ class Complex {
         return Math.sqrt(this.modulus_squared);
     }
 
-    // TODO: How to generalize arg(z)?
+
+    /**
+     * Get the principal argument of 
+     * this complex number
+     */
+    get arg() {
+        // Does this generalize to other bases?
+        return Math.atan2(this.imag, this.real);
+    }
+
+    /**
+     * Compute the n nth roots of this complex number
+     *
+     * root(z, n) = root(|z|, n) * exp(i * (arg(z) + theta_k))
+     *
+     * theta_k = 2 * pi * k / n, k is an integer in the range [0, n - 1]
+     */
+    roots(n) {
+        //TODO: Does this generalize to other bases?
+        let results = [];
+        let r = Math.sqrt(this.modulus);
+        let theta = this.arg;
+        for (let k = 0; k < n; k++) { 
+            let theta_k = 2 * Math.PI * k / n;
+            results.push(Complex.from_polar(r, theta + theta_k));
+        }
+        return results;
+    }
+
 
     /**
      * tranformation f(z) = -z

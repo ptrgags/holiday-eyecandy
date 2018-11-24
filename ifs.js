@@ -1,4 +1,7 @@
-class TransformList {
+/**
+ * Iterated Function System for use in all fractal sketches
+ */
+class IFS {
     /**
      * Build a transform list from an array of xforms
      */

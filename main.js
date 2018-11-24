@@ -1,5 +1,6 @@
 let SKETCHES = [
-   new DoubleSpiral() 
+    new HexagonTiling(),
+    new DoubleSpiral() 
 ];
 
 var sketch_index = 0;
