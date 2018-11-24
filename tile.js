@@ -115,8 +115,8 @@ class Cline extends Tile {
 
     draw(gfx) {
         // Fill in the circle
-        gfx.fill(this.color);
-        gfx.stroke(0);
+        //gfx.fill(this.color);
+        //gfx.stroke(0);
 
         //TODO: How to handle lines?
         gfx.ellipse(

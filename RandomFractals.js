@@ -3,12 +3,14 @@ const NUM_TILES = 100;
 
 var XFORMS = [];
 
+var COLORS = ['red', 'orange', 'green', 'blue'];
+
 function make_tiles() {
     return [
-        new Cline(createVector(-1, 0), 0.99, 'red'),
-        new Cline(createVector(1, 0), 0.99, 'green'),
-        //new Cline(createVector(-1, -1), 1, 'orange'),
-        //new Cline(createVector(1, 1), 1, 'blue'),
+        new Cline(createVector(-1, -1), 1, 'red'),
+        new Cline(createVector(-1, 1), 1, 'orange'),
+        new Cline(createVector(1, 1), 1, 'green'),
+        new Cline(createVector(1, -1), 1, 'blue'),
     ];
 }
 
@@ -81,21 +83,72 @@ function rand_value(scale) {
     return scale * unit_rand;
 }
 
+/**
+ * Because JavaScript doesn't implement modulo properly for negative
+ * integers :P
+ */
+function mod(n, m) {
+    return ((n % m) + m) % m;
+}
+
+function render_circles(gfx, circles, max_depth) {
+    let N = circles.length / 2;
+    for (let i = 0; i < circles.length; i++) {
+        let index = mod(i + N, 2 * N);
+        let xform = XFORMS[index];
+        let circle = circles[i];
+
+        gfx.fill(COLORS[index]);
+        gfx.stroke(0);
+        circle.draw(gfx);
+        render_circle_helper(gfx, xform, circle, index, max_depth);
+    }
+}
+
+function render_circle_helper(gfx, xform, circle, index, depth) {
+    if (depth == 0)
+        return;
+
+    // Draw circle
+    //circle.draw(gfx);
+    //console.log(circle.toString());
+
+    let N = tiles.length / 2;
+    for (let i = -(N - 1); i <= (N - 1); i++) {
+        let new_index = mod(index + i, 2 * N);
+        let new_xform = XFORMS[new_index];
+        
+        let xform_chain = new_xform.then(xform);
+        gfx.fill(COLORS[new_index]);
+        gfx.stroke(0);
+        circle.apply_transform(xform_chain).draw(gfx);
+
+        render_circle_helper(
+            gfx, 
+            new_xform.then(xform),
+            circle,
+            new_index,
+            depth - 1);
+    }
+}
+
+/*
 function render_circles(gfx, circle, index, depth) {
-    // Stop when thhe depth is 0
+    // Stop when the depth is 0
     if (depth == 0)
         return;
 
     circle.draw(gfx);
 
     let N = tiles.length / 2;
-    for (let i = -(N -1); i <= (N - 1); i++) {
-        let new_index = (index + i) % (2 * N);
+    for (let i = -(N - 1); i <= (N - 1); i++) {
+        let new_index = mod(index + i, 2 * N);
         let xform = XFORMS[new_index];
         let new_circle = circle.apply_transform(xform);
         render_circles(gfx, new_circle, new_index, depth - 1); 
     }
 }
+*/
 
 var fill_color = 0;
 var tiles = [];
@@ -112,9 +165,15 @@ function setup() {
     gfx = createGraphics(width, height);
 
     start_complex_plane(gfx);
-    let depth = 100;
-    render_circles(gfx, tiles[0], 1, depth);
-    render_circles(gfx, tiles[1], 0, depth);
+    let depth = 4;
+    render_circles(gfx, tiles, depth);
+    /*
+    render_circles(gfx, tiles[0], 2, depth);
+    //render_circles(gfx, tiles[1], 3, depth);
+    //render_circles(gfx, tiles[2], 0, depth);
+    //render_circles(gfx, tiles[3], 1, depth);
+    */
+    end_complex_plane(gfx);
     end_complex_plane(gfx);
 }
 
