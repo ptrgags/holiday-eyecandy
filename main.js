@@ -1,17 +1,24 @@
 let SKETCHES = [
+    // Simple tessellations of the plane
+    new SquareTiling(),
     new HexagonTiling(),
-    new ParabolicTracks(),
-    new EllipticTracks(),
-    new HyperbolicTracks(),
-    new LoxodromicTracks(),
+
+    // Parabolic tilings: simple translation and rotated so infinity
+    // is at the origin
     new ParabolicTracks(0),
-    new EllipticTracks(0),
-    new HyperbolicTracks(0),
-    new LoxodromicTracks(0),
     new ParabolicTracks(180),
-    new EllipticTracks(180),
-    new HyperbolicTracks(180),
-    new LoxodromicTracks(180)
+
+    // Elliptic tilings: concentric circles and disjoint circles
+    new EllipticTracks(0),
+    new EllipticTracks(),
+
+    // Hyperbolic tilings: "Hyperspace" jump and "dipole field"
+    new HyperbolicTracks(0),
+    new HyperbolicTracks(),
+
+    // Loxodromic tilings: Spiral and double spiral
+    new LoxodromicTracks(0),
+    new LoxodromicTracks(),
 ];
 
 var sketch_index = 0;
