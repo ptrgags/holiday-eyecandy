@@ -1,6 +1,7 @@
 class SchottkyCircles extends ComplexPlaneSketch {
     make_renderer(xforms, tiles) {
         return new DFSSchottky(xforms, tiles, 5);
+        //return new DFSLimitPoints(xforms, tiles, 5);
     }
 
     make_tiles() {
