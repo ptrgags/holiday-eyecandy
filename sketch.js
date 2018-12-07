@@ -1,67 +1,26 @@
 class Sketch {
-    setup(width, height) {
-        this.gfx = createGraphics(width, height);
+    setup(width, height, unit_circle_radius=0.1) {
         this.width = width;
         this.height = height;
-        this.tiles = this.make_tiles();
-        this.xforms = this.make_xforms();
-        this.renderer = this.make_renderer(this.xforms, this.tiles);
+        this.gfx = createGraphics(width, height);
+        this.circle_radius = unit_circle_radius;
+
+        // Set up the complex plane
+        this.start_complex_plane();
+        this.gfx.background(0);
+        this.draw_axes();
+        this.finish_complex_plane();
     }
 
     /**
      * Draw on the buffer
      */
     draw() {
-        this.renderer.draw(this.gfx);
-    }
+        this.start_complex_plane();
 
-    /**
-     * Every sketch in this fractal program will need a TransformList
-     * of some sort. return one from this method
-     */
-    make_xforms() {
-        throw new TypeError("Implement in subclass");
-    }
+        // TODO: Delegate to Renderer
 
-    /**
-     * Get a list of the initial tile(s) to use for rendering
-     */
-    make_tiles() {
-        throw new TypeError("Implement in subclass");
-    }
-    
-    /**
-     * Subclasses pick which rendering method to use
-     */
-    make_renderer(xforms, tiles) {
-        throw new TypeError("Implement in subclass"); 
-    }
-
-    /**
-     * Display the buffer
-     */
-    display() {
-       image(this.gfx, 0, 0); 
-    }
-}
-
-/**
- * Sketch with extra commands for displaying the complex plane
- */
-class ComplexPlaneSketch extends Sketch {
-    /**
-     * Set up the unit circle with 
-     */
-    constructor(unit_circle_size=0.2) {
-        super();
-        this.circle_size = unit_circle_size;
-    }
-
-    /**
-     * Scaling factor
-     */
-    get scale_factor() {
-        return this.circle_size * this.height;
+        this.finish_complex_plane();
     }
 
     /**
@@ -101,17 +60,14 @@ class ComplexPlaneSketch extends Sketch {
         this.gfx.pop();
     }
 
-    setup(width, height) {
-        super.setup(width, height); 
-        this.start_complex_plane();
-        this.gfx.background(0);
-        this.draw_axes();
-        this.finish_complex_plane();
+    /**
+     * Scaling factor
+     */
+    get scale_factor() {
+        return this.circle_radius * this.height;
     }
 
-    draw() {
-        this.start_complex_plane();
-        super.draw();
-        this.finish_complex_plane();
+    display() {
+       image(this.gfx, 0, 0); 
     }
 }

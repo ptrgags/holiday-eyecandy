@@ -1,63 +1,46 @@
-let SKETCHES = [
-    // Simple tessellations of the plane
-    new SquareTiling(),
-    new HexagonTiling(),
+/*
+let TILE_MAKERS = new CycleBuffer([ 
+    new SquareMaker()
+]);
 
-    // Parabolic tilings: simple translation and rotated so infinity
-    // is at the origin
-    new ParabolicTracks(0),
-    new ParabolicTracks(180),
+let TILE_ARRANGERS = new CycleBuffer([
+    new SquareArranger()
+]);
 
-    // Elliptic tilings: concentric circles and disjoint circles
-    new EllipticTracks(0),
-    new EllipticTracks(),
+let RENDERERS = new CycleBuffer([
+    new ChaosGame(),
+]);
 
-    // Hyperbolic tilings: "Hyperspace" jump and "dipole field"
-    new HyperbolicTracks(0),
-    new HyperbolicTracks(),
+let IFS = new CycleBuffer([
+    // Frieze groups
+    Frieze.make_ifs("p1"),
+]);
 
-    // Loxodromic tilings: Spiral and double spiral
-    new LoxodromicTracks(0),
-    new LoxodromicTracks(),
+let VAR_NORMS = new CycleBuffer([
+    new FrameCountNormalizer(),
+]);
 
-    // Apollonian gasket circle
-    new AppolonianGasket(),
+let COLOR_MAPPERS = new CycleBuffer([
+    new LinearColorMapper(),
+]);
 
-    // Nested circle fractal
-    new SchottkyCircles(),
-];
+let PALETTES = new CycleBuffer([
+    new Gradient(Color.BLACK, Color.RED),
+]);
+*/
 
-var sketch_index = 0;
+
+var SKETCH = new Sketch();
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
     background(0);
     frameRate(10);
 
-    let sketch = SKETCHES[sketch_index];
-    sketch.setup(width, height);
+    SKETCH.setup(width, height);
 }
 
 function draw() {
-    let sketch = SKETCHES[sketch_index];
-    sketch.draw();
-    sketch.display();
-}
-
-function cycle_right() {
-    sketch_index = mod(sketch_index + 1, SKETCHES.length);
-    SKETCHES[sketch_index].setup(width, height);
-}
-
-function cycle_left() {
-    sketch_index = mod(sketch_index - 1, SKETCHES.length);
-    SKETCHES[sketch_index].setup(width, height);
-}
-
-function keyReleased() {
-    if (keyCode === RIGHT_ARROW) {
-        cycle_right();
-    } else if (keyCode === LEFT_ARROW) {
-        cycle_left();
-    }
+    SKETCH.draw();
+    SKETCH.display();
 }
