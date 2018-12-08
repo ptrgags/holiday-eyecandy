@@ -5,28 +5,29 @@
  * This includes elements of C and Q[sqrt(n)] though
  * it's a bit ill-defined if n is positive. Oh well, this is an experiment!
  *
- * This class wraps a p5.Vector
  */
 class Complex {
-    constructor(a, b, i_squared=-1) {
-        this.coords = createVector(a, b);
+    constructor(a, b=0.0, i_squared=-1) {
+        // for convenience
+        this.x = a;
+        this.y = b;
         this.i_squared = i_squared;
     }
 
+    // to be clear
     get real() {
-        return this.coords.x;
+        return this.x;
     }
 
     get imag() {
-        return this.coords.y;
+        return this.y;
     }
     
     /**
      * Complex conjugate: Flip the y-coordinate
      */
     get conj() {
-        let new_coords = createVector(this.real, -this.imag);
-        return new Complex(new_coords.x, new_coords.y, this.i_squared);
+        return new Complex(this.real, -this.imag, this.i_squared);
     }
 
     /**
@@ -41,7 +42,7 @@ class Complex {
      * |z|^2 = z * z.conj = z dot z
      */
     get modulus_squared() {
-        return this.coords.dot(this.coords);
+        return this.dot(this);
     }
 
     /**
@@ -52,13 +53,12 @@ class Complex {
         return Math.sqrt(this.modulus_squared);
     }
 
-
     /**
      * Get the principal argument of 
      * this complex number
      */
     get arg() {
-        // Does this generalize to other bases?
+        // TODO: Does this generalize to other adjoined roots?
         return Math.atan2(this.imag, this.real);
     }
 
@@ -70,7 +70,7 @@ class Complex {
      * theta_k = 2 * pi * k / n, k is an integer in the range [0, n - 1]
      */
     roots(n) {
-        //TODO: Does this generalize to other bases?
+        //TODO: Does this generalize to other adjoined roots?
         let results = [];
         let r = Math.sqrt(this.modulus);
         let theta = this.arg;
@@ -81,6 +81,13 @@ class Complex {
         return results;
     }
 
+    /**
+     * Dot product
+     * z dot w = Re(z * w.conj)
+     */
+    dot(other) {
+        return this.mult(other.conj).real;
+    }
 
     /**
      * tranformation f(z) = -z
@@ -110,8 +117,8 @@ class Complex {
         return new Complex(a, b, this.i_squared);
     }
 
-    toString() {
-        return `(${this.real.toPrecision(3)}+${this.imag.toPrecision(3)}i)`
+    get str() {
+        return `(${this.real.toPrecision(3)} + ${this.imag.toPrecision(3)}i)`
     }
 
     /**
@@ -179,4 +186,11 @@ class Complex {
     static from_vec(v, i_squared=-1) {
         return new Complex(v.x, v.y, i_squared);
     }
+}
+
+/**
+ * shortcut so I don't have to type "new" a bajillion times
+ */
+function complex(a, b=0.0, i_squared=-1) {
+    return new Complex(a, b, i_squared);
 }

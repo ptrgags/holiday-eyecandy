@@ -5,6 +5,17 @@ class Sketch {
         this.gfx = createGraphics(width, height);
         this.circle_radius = unit_circle_radius;
 
+        // Draw the background
+        this.clear_screen();
+
+        // We don't have a renderer until the first call of build();
+        this.renderer = null;
+    }
+
+    /** 
+     * Clear the screen and redraw axes
+     */
+    clear_screen() {
         // Set up the complex plane
         this.start_complex_plane();
         this.gfx.background(0);
@@ -13,12 +24,21 @@ class Sketch {
     }
 
     /**
+     * Attach all the components and clear the screen.
+     */
+    build(renderer) {
+        this.renderer = renderer;
+        this.clear_screen();
+    }
+
+    /**
      * Draw on the buffer
      */
     draw() {
         this.start_complex_plane();
 
-        // TODO: Delegate to Renderer
+        if (this.renderer !== null)
+            this.renderer.draw(this.gfx);
 
         this.finish_complex_plane();
     }

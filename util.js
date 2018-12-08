@@ -16,6 +16,13 @@ let mod = function(n, m) {
 }
 
 /**
+ * this is a common idiom for me
+ */
+let log = function(x) {
+    console.log(x.str);
+}
+
+/**
  * Pair two Clines
  */
 function pair_circles(c1, c2, extra_xform) {

@@ -12,7 +12,7 @@ let RENDERERS = new CycleBuffer([
 
 let IFS_LIST = new CycleBuffer([
     // Frieze groups
-    new Frieze("p1"),
+    new Frieze("p1", 2.0),
 ]);
 
 /*
@@ -29,8 +29,27 @@ let PALETTES = new CycleBuffer([
 ]);
 */
 
-
 var SKETCH = new Sketch();
+
+/**
+ * Put all the pieces together
+ */
+function build() {
+    // Choose a renderer
+    let renderer = RENDERERS.current;
+
+    // Attach core components
+    let tile_maker = TILE_MAKERS.current;
+    let arranger = TILE_ARRANGERS.current;
+    let ifs = IFS_LIST.current;
+    renderer.build_core(tile_maker, arranger, ifs);
+
+
+    // TODO: Add color
+
+    // Rebuild the sketch
+    SKETCH.build(renderer);
+}
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -38,6 +57,7 @@ function setup() {
     frameRate(10);
 
     SKETCH.setup(width, height);
+    build();
 }
 
 function draw() {

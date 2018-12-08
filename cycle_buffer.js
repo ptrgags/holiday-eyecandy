@@ -26,8 +26,16 @@ class CycleBuffer {
         return this.elements[this.index];
     }
 
+    get length() {
+        return this.elements.length;
+    }
+
     get_item(index) {
         let idx = mod(index, this.elements.length);
         return this.elements[idx];
+    }
+
+    map(func) {
+        return this.elements.map(func);
     }
 }

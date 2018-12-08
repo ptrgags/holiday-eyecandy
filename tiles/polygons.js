@@ -5,7 +5,7 @@ class RegularPolygonMaker extends TileMaker {
     }
 
     make_tile(center) {
-        return Polygon.regular(this.sides, center);
+        return Polygon.make_regular(this.sides, center);
     }
 }
 
@@ -38,9 +38,9 @@ class Polygon extends Tile {
         gfx.endShape(CLOSE);
     }
 
-    toString() {
-        let coords = this.points.map((p) => p.toString()).join('\n');
-        return `Polygon @ ${this.center.toString()}, \n${coords}`;
+    get str() {
+        let coords = this.points.map((p) => p.str).join('\n');
+        return `Polygon @ ${this.center.str}, \n${coords}`;
     }
 
     /**
