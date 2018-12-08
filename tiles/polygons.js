@@ -36,7 +36,7 @@ class Polygon extends Tile {
     draw(gfx, color) {
         gfx.beginShape();
         gfx.fill(color);
-        gfx.stroke(color);
+        gfx.stroke('black');
         for (let point of this.points) {
             gfx.vertex(point.x, point.y);
         }

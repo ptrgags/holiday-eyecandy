@@ -1,10 +1,14 @@
 let TILE_MAKERS = new CycleBuffer([ 
-    new RegularPolygonMaker(5, complex(0.5), complex(0.0, 1.0)),
+    new RegularPolygonMaker(5, complex(0.5), cokmplex(0.0, 1.0)),
+    new RegularPolygonMaker(4, complex(0.5), complex(0.0, 1.0)),
+    new RegularPolygonMaker(3, complex(0.5), complex(0.0, 1.0)),
+    new TraceMaker(),
 ]);
 
 let TILE_ARRANGERS = new CycleBuffer([
     new CenterArranger(10),
     new RandomSquareArranger(10, 8.0),
+    new RandomSquareArranger(1000, 8.0),
 ]);
 
 let RENDERERS = new CycleBuffer([
@@ -84,7 +88,13 @@ function draw() {
 
 function keyReleased() {
     // R/F cycles IFS
-    if (key === "R") {
+    if (key === "Q") {
+        TILE_MAKERS.next();
+        build();
+    } else if (key === "A") {
+        TILE_MAKERS.previous();
+        build();
+    } else if (key === "R") {
         IFS_LIST.next();
         build();
     } else if (key === "F") {
