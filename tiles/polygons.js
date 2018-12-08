@@ -50,12 +50,12 @@ class Polygon extends Tile {
 
     /**
      * Make a regular polygon using the n roots of unity
-     * the points will be arranged around the unit circle
-     *
-     * the first root will always be 1 + 0i
+     * the points will be arranged around the unit circle,
+     * then translated by center
      */
     static make_regular(n, center) {
         let vertices = Complex.one().roots(n);
-        return new Polygon(center, vertices);
+        let translated = vertices.map((x) => x.add(center));
+        return new Polygon(center, translated);
     }
 }

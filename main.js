@@ -4,6 +4,7 @@ let TILE_MAKERS = new CycleBuffer([
 
 let TILE_ARRANGERS = new CycleBuffer([
     new CenterArranger(10),
+    new RandomSquareArranger(10, 8.0),
 ]);
 
 let RENDERERS = new CycleBuffer([
@@ -19,6 +20,16 @@ let IFS_LIST = new CycleBuffer([
     new Frieze("p2", 1.0),
     new Frieze("p2mg", 1.0),
     new Frieze("p2mm", 1.0),
+
+    // Mobius Tracks
+    new ParabolicTracks(0),
+    new ParabolicTracks(180),
+    new EllipticTracks(0),
+    new EllipticTracks(180),
+    new HyperbolicTracks(0),
+    new HyperbolicTracks(),
+    new LoxodromicTracks(0),
+    new LoxodromicTracks(),
 ]);
 
 /*
@@ -78,6 +89,12 @@ function keyReleased() {
         build();
     } else if (key === "F") {
         IFS_LIST.previous();
+        build();
+    } else if (key === "W") {
+        TILE_ARRANGERS.next();
+        build();
+    } else if (key === "S") {
+        TILE_ARRANGERS.previous();
         build();
     } else if (key === "I") {
         SKETCH.scale_up();
