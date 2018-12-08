@@ -1,5 +1,5 @@
 let TILE_MAKERS = new CycleBuffer([ 
-    new RegularPolygonMaker(5, complex(0.5), cokmplex(0.0, 1.0)),
+    new RegularPolygonMaker(5, complex(0.5), complex(0.0, 1.0)),
     new RegularPolygonMaker(4, complex(0.5), complex(0.0, 1.0)),
     new RegularPolygonMaker(3, complex(0.5), complex(0.0, 1.0)),
     new TraceMaker(),
