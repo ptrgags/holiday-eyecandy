@@ -1,21 +1,21 @@
-/*
 let TILE_MAKERS = new CycleBuffer([ 
-    new SquareMaker()
+    new RegularPolygonMaker(4),
 ]);
 
 let TILE_ARRANGERS = new CycleBuffer([
-    new SquareArranger()
+    new CenterArranger(10),
 ]);
 
 let RENDERERS = new CycleBuffer([
     new ChaosGame(),
-]);
+])
 
-let IFS = new CycleBuffer([
+let IFS_LIST = new CycleBuffer([
     // Frieze groups
-    Frieze.make_ifs("p1"),
+    new Frieze("p1"),
 ]);
 
+/*
 let VAR_NORMS = new CycleBuffer([
     new FrameCountNormalizer(),
 ]);
@@ -43,4 +43,8 @@ function setup() {
 function draw() {
     SKETCH.draw();
     SKETCH.display();
+}
+
+function keyReleased() {
+
 }

@@ -4,6 +4,7 @@
 class CycleBuffer {
     constructor(elements, index=0) {
         this.elements = elements;
+        this.index = index;
         this.fix_index();
     }
 
