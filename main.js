@@ -1,5 +1,5 @@
 let TILE_MAKERS = new CycleBuffer([ 
-    new RegularPolygonMaker(4),
+    new RegularPolygonMaker(5, complex(0.5), complex(0.0, 1.0)),
 ]);
 
 let TILE_ARRANGERS = new CycleBuffer([
@@ -12,7 +12,13 @@ let RENDERERS = new CycleBuffer([
 
 let IFS_LIST = new CycleBuffer([
     // Frieze groups
-    new Frieze("p1", 2.0),
+    new Frieze("p1", 1.0),
+    new Frieze("p1m1", 1.0),
+    new Frieze("p11m", 1.0),
+    new Frieze("p11g", 1.0),
+    new Frieze("p2", 1.0),
+    new Frieze("p2mg", 1.0),
+    new Frieze("p2mm", 1.0),
 ]);
 
 /*
@@ -66,5 +72,20 @@ function draw() {
 }
 
 function keyReleased() {
-
+    // R/F cycles IFS
+    if (key === "R") {
+        IFS_LIST.next();
+        build();
+    } else if (key === "F") {
+        IFS_LIST.previous();
+        build();
+    } else if (key === "I") {
+        SKETCH.scale_up();
+        build();
+    } else if (key === "K") {
+        SKETCH.scale_down();
+        build();
+    } else {
+        console.log(key);
+    }
 }

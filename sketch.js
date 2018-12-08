@@ -10,6 +10,8 @@ class Sketch {
 
         // We don't have a renderer until the first call of build();
         this.renderer = null;
+
+        this.RESCALE_AMOUNT = 1.25;
     }
 
     /** 
@@ -89,5 +91,21 @@ class Sketch {
 
     display() {
        image(this.gfx, 0, 0); 
+    }
+
+    /**
+     * zoom in a little
+     */
+    scale_up() {
+        this.circle_radius *= this.RESCALE_AMOUNT;
+        this.clear_screen();
+    }
+
+    /**
+     * Zoom out a little
+     */
+    scale_down() {
+        this.circle_radius /= this.RESCALE_AMOUNT;
+        this.clear_screen();
     }
 }
