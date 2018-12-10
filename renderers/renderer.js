@@ -34,4 +34,14 @@ class Renderer {
         }
         this.tiles = new_tiles;
     }
+
+    draw(gfx) {
+        // TODO: Pick color here
+        let color = 'red';
+        this.render(gfx, color);
+    }
+
+    render(gfx, color) {
+        throw new TypeError("Implement in Subclass!");
+    }
 }

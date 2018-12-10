@@ -35,6 +35,30 @@ class CycleBuffer {
         return this.elements[idx];
     }
 
+    /**
+     * Get all elements with their indices
+     *
+     * returns an array of arrays:
+     * [
+     *  [x1, 0],
+     *  [x2, 1],
+     *  ...
+     *  [xn, n],
+     * ]
+     */
+    get all() {
+        return this.elements.map((x, i) => [x, i]);
+    }
+
+    /**
+     * like this.all except we exclude the element that matches
+     * the index
+     */
+    all_except(index) {
+        let reduced_index = mod(index, this.elements.length);
+        return this.all.filter(([, i]) => i != index);
+    }
+
     map(func) {
         return this.elements.map(func);
     }

@@ -1,9 +1,11 @@
 class ChaosGame extends Renderer {
-    draw(gfx) {
+    render(gfx, color) {
         let new_tiles = [];
         for (let tile of this.tiles) {
-            tile.draw(gfx, 'red');
-            let xform = this.ifs.rand_xform;
+            tile.draw(gfx, color);
+            // Apply a random transformation, including inverses.
+            // Ignore the xform index, that is only needed for DFS
+            let [xform, ] = this.ifs.rand_xform;
             let new_tile = tile.apply_transform(xform);
             new_tiles.push(new_tile);
         }

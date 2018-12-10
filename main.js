@@ -7,12 +7,14 @@ let TILE_MAKERS = new CycleBuffer([
 
 let TILE_ARRANGERS = new CycleBuffer([
     new CenterArranger(10),
+    new CenterArranger(1),
     new RandomSquareArranger(10, 8.0),
     new RandomSquareArranger(1000, 8.0),
 ]);
 
 let RENDERERS = new CycleBuffer([
     new ChaosGame(),
+    new DFSRenderer(5, 5)
 ])
 
 let IFS_LIST = new CycleBuffer([
@@ -86,33 +88,27 @@ function draw() {
     SKETCH.display();
 }
 
+function cycle_options(fwd_key, bwd_key, options_buffer) {
+    if (key === fwd_key) {
+        options_buffer.next();
+        build();
+    } else if (key === bwd_key) {
+        options_buffer.previous();
+        build();
+    } 
+}
+
 function keyReleased() {
-    // R/F cycles IFS
-    if (key === "Q") {
-        TILE_MAKERS.next();
-        build();
-    } else if (key === "A") {
-        TILE_MAKERS.previous();
-        build();
-    } else if (key === "R") {
-        IFS_LIST.next();
-        build();
-    } else if (key === "F") {
-        IFS_LIST.previous();
-        build();
-    } else if (key === "W") {
-        TILE_ARRANGERS.next();
-        build();
-    } else if (key === "S") {
-        TILE_ARRANGERS.previous();
-        build();
-    } else if (key === "I") {
+    console.log(key);
+    cycle_options('Q', 'A', TILE_MAKERS);
+    cycle_options('W', 'S', TILE_ARRANGERS);
+    cycle_options('E', 'D', RENDERERS);
+    cycle_options('R', 'F', IFS_LIST);
+    if (key === "I") {
         SKETCH.scale_up();
         build();
     } else if (key === "K") {
         SKETCH.scale_down();
         build();
-    } else {
-        console.log(key);
-    }
+    } 
 }

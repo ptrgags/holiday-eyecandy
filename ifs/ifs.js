@@ -37,7 +37,24 @@ class IFS {
      */
     get rand_xform() {
         var index = Math.floor(Math.random() * this.xforms.length);
-        return this.xforms.get_item(index);
+        return [this.xforms.get_item(index), index];
+    }
+
+    get all_xforms() { 
+        return this.xforms.all;
+    }
+
+    /**
+     * Get all transforms except the inverse of the last transformation
+     * we applied. This is useful
+     */
+    all_except_inverse(last_index) {
+        if(this.is_group) {
+            let inverse_index = last_index + this.xforms.length / 2;
+            return this.xforms.all_except(inverse_index);
+        } else {
+            return this.xforms.all;
+        }
     }
 
     get str() {
