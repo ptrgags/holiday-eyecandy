@@ -53,6 +53,7 @@ let COLOR_MAPPERS = new CycleBuffer([
 ]);
 
 let PALETTES = new CycleBuffer([
+    new Gradient(['red'], ['blue'], true),
     new Gradient(['blue'], ['purple'], false),
     new Gradient(['blue'], ['green'], true),
 ]);
