@@ -8,8 +8,8 @@ class DFSRenderer extends Renderer {
         this.tiles_per_frame = tiles_per_frame;
     }
 
-    build_core(tile_maker, arranger, ifs) {
-        super.build_core(tile_maker, arranger, ifs);
+    build(tile_maker, arranger, ifs, color_picker) {
+        super.build(tile_maker, arranger, ifs, color_picker);
         
         this.tile_gens = this.tiles.map((x) => this.dfs_tiles(0, x));
     }

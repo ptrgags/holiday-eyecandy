@@ -1,3 +1,5 @@
+p5.disableFriendlyErrors = true;
+
 let TILE_MAKERS = new CycleBuffer([ 
     new RegularPolygonMaker(5, complex(0.5), complex(0.0, 1.0)),
     new RegularPolygonMaker(4, complex(0.5), complex(0.0, 1.0)),
@@ -38,19 +40,22 @@ let IFS_LIST = new CycleBuffer([
     new LoxodromicTracks(),
 ]);
 
-/*
 let VAR_NORMS = new CycleBuffer([
-    new FrameCountNormalizer(),
+    new FrameCountNormalizer(100),
 ]);
 
+
 let COLOR_MAPPERS = new CycleBuffer([
-    new LinearColorMapper(),
+    new SineMapper(1),
+    new SineMapper(4),
+    new LinearMapper(1),
+    new LinearMapper(4),
 ]);
 
 let PALETTES = new CycleBuffer([
-    new Gradient(Color.BLACK, Color.RED),
+    new Gradient(['blue'], ['purple'], false),
+    new Gradient(['blue'], ['green'], true),
 ]);
-*/
 
 var SKETCH = new Sketch();
 
@@ -61,16 +66,19 @@ function build() {
     // Choose a renderer
     let renderer = RENDERERS.current;
 
-    // Attach core components
+    // Get core components
     let tile_maker = TILE_MAKERS.current;
     let arranger = TILE_ARRANGERS.current;
     let ifs = IFS_LIST.current;
-    renderer.build_core(tile_maker, arranger, ifs);
 
-
-    // TODO: Add color
+    // Build a color picker
+    let var_norm = VAR_NORMS.current;
+    let color_mapper = COLOR_MAPPERS.current;
+    let palette = PALETTES.current;
+    let color_picker = new ColorPicker(var_norm, color_mapper, palette);
 
     // Rebuild the sketch
+    renderer.build(tile_maker, arranger, ifs, color_picker);
     SKETCH.build(renderer);
 }
 
@@ -104,6 +112,9 @@ function keyReleased() {
     cycle_options('W', 'S', TILE_ARRANGERS);
     cycle_options('E', 'D', RENDERERS);
     cycle_options('R', 'F', IFS_LIST);
+    cycle_options('T', 'G', VAR_NORMS);
+    cycle_options('Y', 'H', COLOR_MAPPERS);
+    cycle_options('U', 'J', PALETTES);
     if (key === "I") {
         SKETCH.scale_up();
         build();
