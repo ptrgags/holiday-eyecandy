@@ -15,3 +15,21 @@ class RandomSquareArranger extends TileArranger {
         return results;
     }
 }
+
+class RandomCircleArranger extends TileArranger {
+    constructor(num_tiles, radius) {
+        super();
+        this.num_tiles = num_tiles;
+        this.radius = radius;
+    }
+
+    arrange_tiles() {
+        let results = [];
+        for (let i = 0; i < this.num_tiles; i++) {
+            let r = rand_value(this.radius);
+            let theta = rand_value(Math.PI);
+            results.push(Complex.from_polar(r, theta));
+        }
+        return results;
+    }
+}

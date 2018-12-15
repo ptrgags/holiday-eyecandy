@@ -1,17 +1,18 @@
 p5.disableFriendlyErrors = true;
 
 let TILE_MAKERS = new CycleBuffer([ 
-    new RegularPolygonMaker(5, complex(0.5), complex(0.0, 1.0)),
-    new RegularPolygonMaker(4, complex(0.5), complex(0.0, 1.0)),
-    new RegularPolygonMaker(3, complex(0.5), complex(0.0, 1.0)),
     new TraceMaker(),
+    new RegularPolygonMaker(5, complex(0.5), complex(-0.5, 0.5)),
+    new RegularPolygonMaker(4, complex(0.5), complex(-0.5, 0.5)),
+    new RegularPolygonMaker(3, complex(0.5), complex(-0.5, 0.5)),
 ]);
 
 let TILE_ARRANGERS = new CycleBuffer([
+    new RandomCircleArranger(1000, 8.0),
+    new RandomSquareArranger(1000, 8.0),
+    new RandomSquareArranger(10, 8.0),
     new CenterArranger(10),
     new CenterArranger(1),
-    new RandomSquareArranger(10, 8.0),
-    new RandomSquareArranger(1000, 8.0),
 ]);
 
 let RENDERERS = new CycleBuffer([
@@ -20,24 +21,29 @@ let RENDERERS = new CycleBuffer([
 ])
 
 let IFS_LIST = new CycleBuffer([
-    // Frieze groups
+    // Mobius Tracks
+    new ParabolicTracks(complex(0.1), false),
+    new ParabolicTracks(complex(0.01), true),
+    new EllipticTracks(0.1, false),
+    new EllipticTracks(0.02, true),
+    new HyperbolicTracks(1.1, false),
+    new HyperbolicTracks(1.05, true),
+    new LoxodromicTracks(Complex.from_polar(1.1, 0.1), false),
+    new LoxodromicTracks(Complex.from_polar(1.03, 0.07), true),
+
+    // Frieze groups.
+    // The first parameter is which frieze group
+    // (see https://en.wikipedia.org/wiki/Frieze_group for info about
+    // crystallographic notation).
+    // the second parameter is the translation amount. I set
+    // some of them larger so the basic tiles show up
     new Frieze("p1", 1.0),
-    new Frieze("p1m1", 1.0),
+    new Frieze("p1m1", 2.0),
     new Frieze("p11m", 1.0),
     new Frieze("p11g", 1.0),
     new Frieze("p2", 1.0),
-    new Frieze("p2mg", 1.0),
-    new Frieze("p2mm", 1.0),
-
-    // Mobius Tracks
-    new ParabolicTracks(0),
-    new ParabolicTracks(180),
-    new EllipticTracks(0),
-    new EllipticTracks(180),
-    new HyperbolicTracks(0),
-    new HyperbolicTracks(),
-    new LoxodromicTracks(0),
-    new LoxodromicTracks(),
+    new Frieze("p2mg", 4.0),
+    new Frieze("p2mm", 2.0),
 ]);
 
 let VAR_NORMS = new CycleBuffer([
