@@ -22,6 +22,9 @@ let RENDERERS = new CycleBuffer([
 ])
 
 let IFS_LIST = new CycleBuffer([
+    // Apollonian Gasket
+    new ApollonianGasket(),
+
     // Simple Affine Transformation fractals like the
     // Sierpinski triangle
     new AffineSquare(3),

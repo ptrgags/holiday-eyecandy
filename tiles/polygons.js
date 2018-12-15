@@ -1,5 +1,5 @@
 class RegularPolygonMaker extends TileMaker {
-    constructor(sides, mult, offset) {
+    constructor(sides, mult=complex(1.0), offset=complex(0.0)) {
         super();
         this.sides = sides;
         this.mult = mult;
