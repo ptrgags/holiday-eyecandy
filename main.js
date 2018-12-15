@@ -1,6 +1,7 @@
 p5.disableFriendlyErrors = true;
 
-let TILE_MAKERS = new CycleBuffer([ 
+let TILE_MAKERS = new CycleBuffer([
+    new PointMaker(),
     new TraceMaker(),
     new RegularPolygonMaker(5, complex(0.5), complex(-0.5, 0.5)),
     new RegularPolygonMaker(4, complex(0.5), complex(-0.5, 0.5)),
@@ -110,7 +111,7 @@ function cycle_options(fwd_key, bwd_key, options_buffer) {
     } else if (key === bwd_key) {
         options_buffer.previous();
         build();
-    } 
+    }
 }
 
 function keyReleased() {
@@ -128,5 +129,5 @@ function keyReleased() {
     } else if (key === "K") {
         SKETCH.scale_down();
         build();
-    } 
+    }
 }
