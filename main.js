@@ -3,17 +3,17 @@ p5.disableFriendlyErrors = true;
 let TILE_MAKERS = new CycleBuffer([
     new PointMaker(),
     new TraceMaker(),
-    new RegularPolygonMaker(5, complex(0.5), complex(-0.5, 0.5)),
-    new RegularPolygonMaker(4, complex(0.5), complex(-0.5, 0.5)),
-    new RegularPolygonMaker(3, complex(0.5), complex(-0.5, 0.5)),
+    new RegularPolygonMaker(5, complex(0.5)),
+    new RegularPolygonMaker(4, complex(0.5)),
+    new RegularPolygonMaker(3, complex(0.5)),
 ]);
 
 let TILE_ARRANGERS = new CycleBuffer([
     new RandomCircleArranger(1000, 8.0),
     new RandomSquareArranger(1000, 8.0),
     new RandomSquareArranger(10, 8.0),
-    new CenterArranger(10),
-    new CenterArranger(1),
+    new CenterArranger(complex(-0.5, 0.5), 10),
+    new CenterArranger(complex(-0.5, 0.5), 1),
 ]);
 
 let RENDERERS = new CycleBuffer([
