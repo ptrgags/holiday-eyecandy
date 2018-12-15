@@ -24,7 +24,6 @@ class ComplexTransform extends Transform {
         this.mirror = mirror;
     }
 
-
     /**
      * Transform a point by applying
      *
@@ -39,6 +38,21 @@ class ComplexTransform extends Transform {
 
         return this.multiplier.mult(z1).add(this.offset);
     }
+
+    then(xform) {
+        if (xform.mirror) {
+            let a = xform.multiplier.mult(this.multiplier.conj);
+            let b = xform.offset.add(this.offset.conj);
+            let mirror = !this.mirror;
+            return new ComplexTransform(a, b, mirror);
+        } else {
+            let a = xform.multiplier.mult(this.multiplier);
+            let b = xform.offset.add(this.offset);
+            let mirror = this.mirror;
+            return new ComplexTransform(a, b, mirror);
+        }
+    }
+
 
     get is_invertible() {
         return true;
@@ -55,7 +69,6 @@ class ComplexTransform extends Transform {
      * w - b = a * z.conj
      * a.inv * w - b / a = z.conj
      * a.inv.conj * w.conj - (b / a).conj = z
-     * TODO: Debug NaNs
      */
     get inverse() {
         let new_mult = this.multiplier.inv;
@@ -70,7 +83,7 @@ class ComplexTransform extends Transform {
 
     get str() {
         let conj_str = this.mirror ? ".conj" : "";
-        return `f(z) = ${this.multiplier.str} * z${conj_str} ` 
+        return `f(z) = ${this.multiplier.str} * z${conj_str} `
             + `+ ${this.offset.str}`;
     }
 }

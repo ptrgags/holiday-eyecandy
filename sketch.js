@@ -11,17 +11,21 @@ class Sketch {
         // We don't have a renderer until the first call of build();
         this.renderer = null;
 
+        // Enable drawing the axes
+        this.axes_enabled = true;
+
         this.RESCALE_AMOUNT = 1.25;
     }
 
-    /** 
+    /**
      * Clear the screen and redraw axes
      */
     clear_screen() {
         // Set up the complex plane
         this.start_complex_plane();
         this.gfx.background(0);
-        this.draw_axes();
+        if (this.axes_enabled)
+            this.draw_axes();
         this.finish_complex_plane();
     }
 
@@ -90,7 +94,7 @@ class Sketch {
     }
 
     display() {
-       image(this.gfx, 0, 0); 
+       image(this.gfx, 0, 0);
     }
 
     /**
@@ -106,6 +110,11 @@ class Sketch {
      */
     scale_down() {
         this.circle_radius /= this.RESCALE_AMOUNT;
+        this.clear_screen();
+    }
+
+    toggle_axes() {
+        this.axes_enabled = !this.axes_enabled;
         this.clear_screen();
     }
 }

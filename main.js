@@ -22,6 +22,11 @@ let RENDERERS = new CycleBuffer([
 ])
 
 let IFS_LIST = new CycleBuffer([
+    // Simple Affine Transformation fractals like the
+    // Sierpinski triangle
+    new AffineSquare(3),
+    new AffineSquare(4),
+
     // Mobius Tracks
     new ParabolicTracks(complex(0.1), false),
     new ParabolicTracks(complex(0.01), true),
@@ -123,11 +128,16 @@ function keyReleased() {
     cycle_options('T', 'G', VAR_NORMS);
     cycle_options('Y', 'H', COLOR_MAPPERS);
     cycle_options('U', 'J', PALETTES);
+
+    // view controls
     if (key === "I") {
         SKETCH.scale_up();
         build();
     } else if (key === "K") {
         SKETCH.scale_down();
+        build();
+    } else if (key === " ") {
+        SKETCH.toggle_axes();
         build();
     }
 }
