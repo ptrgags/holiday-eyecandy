@@ -1,5 +1,5 @@
 /**
- * Cycle buffer that 
+ * Cycle buffer that
  */
 class CycleBuffer {
     constructor(elements, index=0) {
@@ -15,6 +15,11 @@ class CycleBuffer {
 
     previous() {
         this.index -= 1;
+        this.fix_index();
+    }
+
+    advance_to(index) {
+        this.index = index;
         this.fix_index();
     }
 

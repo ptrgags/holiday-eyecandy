@@ -1,6 +1,6 @@
 class MobiusTracks extends IFS {
 
-    make_xforms() { 
+    make_xforms() {
         // The subclass picks the type of mobius transform
         var mobius = this.mobius_xform;
 
@@ -50,6 +50,11 @@ class LoxodromicTracks extends MobiusTracks {
         else
             return mobius;
     }
+
+    get label() {
+        let nickname = this.conjugate ? 'Double Spiral' : 'Spiral';
+        return `Loxodromic ("${nickname}")`;
+    }
 }
 
 
@@ -60,7 +65,7 @@ class LoxodromicTracks extends MobiusTracks {
  * Complex Plane: lines that radiate out from the origin and move towards
  * infinity. After conjugation, the lines become arcs from -1 to 1
  *
- * Riemann Sphere: Meridians from south pole to the north pole. 
+ * Riemann Sphere: Meridians from south pole to the north pole.
  * Conjugation rotates the sphere 90 degrees around the y-axis, making
  * the meridians go from left to right instead of bottom to top.
  *
@@ -68,6 +73,11 @@ class LoxodromicTracks extends MobiusTracks {
 class HyperbolicTracks extends LoxodromicTracks {
     constructor(multiplier=1.1, conjugate=true) {
         super(complex(multiplier), conjugate);
+    }
+
+    get label() {
+        let nickname = this.conjugate ? 'Source & Sink' : 'Hyperspace';
+        return `Hyperbolic ("${nickname}")`;
     }
 }
 
@@ -78,7 +88,7 @@ class HyperbolicTracks extends LoxodromicTracks {
  *
  * Complex plane: Concentric circles. After conjugating, they become
  *   a set of Apollonian circles
- * 
+ *
  * Riemann Sphere: Circular rings around the sphere like lattitude lines
  *   conjugating by a mobius transform simply rotates the sphere
  */
@@ -86,14 +96,19 @@ class EllipticTracks extends LoxodromicTracks {
     constructor(rotate_amount, conjugate=true) {
         super(Complex.from_polar(1.0, rotate_amount), conjugate);
     }
+
+    get label() {
+        let nickname = this.conjugate ? 'Parallel Circles' : 'Rings';
+        return `Elliptic ("${nickname}")`;
+    }
 }
 
 /**
- * Parabolic Mobius transformations: 
+ * Parabolic Mobius transformations:
  *
  * Complex plane: translation mapping, optionally conjugated by a mobius
  *   transform that maps infinity to the origin
- * 
+ *
  * Riemann Sphere: motion along circles tangent at infinity. Optionally
  *   conjugated by a 180 degree rotation around the x-axis, which swaps
  *   the north and south poles.
@@ -111,5 +126,10 @@ class ParabolicTracks extends MobiusTracks {
             return mobius.conjugate_by(MobiusTransform.x180());
         else
             return mobius;
+    }
+
+    get label() {
+        let nickname = this.conjugate ? 'Tangent Circles' : 'Back and Forth';
+        return `Parabolic ("${nickname}")`;
     }
 }

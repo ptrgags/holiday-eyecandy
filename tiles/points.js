@@ -2,6 +2,10 @@ class PointMaker extends TileMaker {
     make_tile(center) {
         return new Point(center);
     }
+
+    get label() {
+        return "Points";
+    }
 }
 
 class Point extends Tile {

@@ -11,6 +11,21 @@ class RegularPolygonMaker extends TileMaker {
         let xform = new ComplexTransform(this.mult, this.offset);
         return unit_poly.apply_transform(xform);
     }
+
+    get label() {
+        if (this.sides === 3) {
+            return "Triangles";
+        } else if (this.sides === 4) {
+            return "Squares";
+        } else if (this.sides === 5) {
+            return "Pentagons";
+        } else if (this.sides === 6) {
+            return "Hexagons";
+        } else {
+            // I don't want to sit here forever.
+            return `${this.sides}-gon`;
+        }
+    }
 }
 
 /**

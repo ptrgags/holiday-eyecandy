@@ -14,4 +14,8 @@ class ApollonianGasket extends IFS {
     get is_group() {
         return true;
     }
+
+    get label() {
+        return "Apollonian Gasket";
+    }
 }

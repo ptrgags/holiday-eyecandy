@@ -22,14 +22,6 @@ let RENDERERS = new CycleBuffer([
 ])
 
 let IFS_LIST = new CycleBuffer([
-    // Apollonian Gasket
-    new ApollonianGasket(),
-
-    // Simple Affine Transformation fractals like the
-    // Sierpinski triangle
-    new AffineSquare(3),
-    new AffineSquare(4),
-
     // Mobius Tracks
     new ParabolicTracks(complex(0.1), false),
     new ParabolicTracks(complex(0.01), true),
@@ -39,6 +31,14 @@ let IFS_LIST = new CycleBuffer([
     new HyperbolicTracks(1.05, true),
     new LoxodromicTracks(Complex.from_polar(1.1, 0.1), false),
     new LoxodromicTracks(Complex.from_polar(1.03, 0.07), true),
+
+    // Apollonian Gasket
+    new ApollonianGasket(),
+
+    // Simple Affine Transformation fractals like the
+    // Sierpinski triangle
+    new AffineSquare(3),
+    new AffineSquare(4),
 
     // Frieze groups.
     // The first parameter is which frieze group
@@ -98,11 +98,35 @@ function build() {
     SKETCH.build(renderer);
 }
 
+function make_select(x, y, options) {
+    let sel = createSelect();
+    sel.position(x, y);
+    for (let [x, i] of options.all) {
+        console.log(x, i, x.label);
+        sel.option(x.label, i);
+    }
+    sel.changed(() => {
+        let i = parseInt(sel.value());
+        options.advance_to(i);
+        build();
+    })
+}
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
     background(0);
     frameRate(10);
 
+    SKETCH.setup(width, height);
+    build();
+
+    make_select(10, 40, TILE_MAKERS);
+    make_select(10, 10, IFS_LIST);
+
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
     SKETCH.setup(width, height);
     build();
 }
@@ -113,10 +137,10 @@ function draw() {
 }
 
 function cycle_options(fwd_key, bwd_key, options_buffer) {
-    if (key === fwd_key) {
+    if (key.toUpperCase() === fwd_key) {
         options_buffer.next();
         build();
-    } else if (key === bwd_key) {
+    } else if (key.toUpperCase() === bwd_key) {
         options_buffer.previous();
         build();
     }
@@ -133,10 +157,10 @@ function keyReleased() {
     cycle_options('U', 'J', PALETTES);
 
     // view controls
-    if (key === "I") {
+    if (key === "i") {
         SKETCH.scale_up();
         build();
-    } else if (key === "K") {
+    } else if (key === "k") {
         SKETCH.scale_down();
         build();
     } else if (key === " ") {

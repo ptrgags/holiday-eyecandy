@@ -22,4 +22,11 @@ class AffineSquare extends IFS{
     get is_group () {
         return false;
     }
+
+    get label () {
+        if (this.num_squares === 3)
+            return 'Sierpinski Triangle';
+        else
+            return 'Big Square';
+    }
 }

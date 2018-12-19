@@ -2,6 +2,10 @@ class TraceMaker extends TileMaker {
     make_tile(center) {
         return new Trace(center);
     }
+
+    get label() {
+        return "Motion Traces";
+    }
 }
 
 class Trace extends Tile {
