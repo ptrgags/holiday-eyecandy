@@ -15,4 +15,8 @@ class ChaosGame extends Renderer {
         this.stats.iterations += 1;
     }
 
+    get label() {
+        return "Chaos Game";
+    }
+
 }

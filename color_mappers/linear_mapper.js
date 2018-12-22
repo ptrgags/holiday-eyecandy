@@ -12,7 +12,7 @@ class LinearMapper extends ColorMapper {
     map_color(val) {
         return this.fmod(this.freq * val, 1.0);
     }
-    
+
     /**
      * Using the definition
      *
@@ -20,5 +20,9 @@ class LinearMapper extends ColorMapper {
      */
     fmod(val, n) {
         return val - Math.floor(val / n) * n;
+    }
+
+    get label() {
+        return `Sawtooth (freq=${this.freq})`;
     }
 }

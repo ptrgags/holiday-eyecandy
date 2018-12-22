@@ -14,6 +14,10 @@ class RandomSquareArranger extends TileArranger {
         }
         return results;
     }
+
+    get label() {
+        return `Square of ${this.num_tiles} Random Tile(s)`
+    }
 }
 
 class RandomCircleArranger extends TileArranger {
@@ -31,5 +35,9 @@ class RandomCircleArranger extends TileArranger {
             results.push(Complex.from_polar(r, theta));
         }
         return results;
+    }
+
+    get label() {
+        return `Circle of ${this.num_tiles} Random Tile(s)`
     }
 }

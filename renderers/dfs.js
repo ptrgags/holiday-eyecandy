@@ -10,7 +10,7 @@ class DFSRenderer extends Renderer {
 
     build(tile_maker, arranger, ifs, color_picker) {
         super.build(tile_maker, arranger, ifs, color_picker);
-        
+
         this.tile_gens = this.tiles.map((x) => this.dfs_tiles(0, x));
     }
 
@@ -21,7 +21,7 @@ class DFSRenderer extends Renderer {
             yield tile;
             // At the root of the tree, we can choose any of the
             // transformations
-            for (let [xform, index] of this.ifs.all_xforms) {    
+            for (let [xform, index] of this.ifs.all_xforms) {
                 let new_tile = tile.apply_transform(xform);
                 yield *this.dfs_tiles(depth + 1, new_tile, index);
             }
@@ -48,7 +48,7 @@ class DFSRenderer extends Renderer {
                 }
             }
         }
-        
+
             /*
         let new_tiles = [];
         for (let tile of this.tiles) {
@@ -61,6 +61,10 @@ class DFSRenderer extends Renderer {
         */
     }
 
-    
+    get label() {
+        return "Depth-First Search";
+    }
+
+
 
 }

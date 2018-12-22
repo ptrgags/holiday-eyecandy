@@ -18,4 +18,8 @@ class CenterArranger extends TileArranger {
             results.push(this.center);
         return results;
     }
+
+    get label() {
+        return `${this.num_tiles} tile(s) at ${this.center.str}`;
+    }
 }

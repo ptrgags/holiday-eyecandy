@@ -120,9 +120,16 @@ function setup() {
     SKETCH.setup(width, height);
     build();
 
-    make_select(10, 40, TILE_MAKERS);
-    make_select(10, 10, IFS_LIST);
+    const OFFSET = 10;
+    const SPACING = 20;
 
+    make_select(10, OFFSET, TILE_MAKERS);
+    make_select(10, OFFSET + 1 * SPACING, TILE_ARRANGERS);
+    make_select(10, OFFSET + 2 * SPACING, RENDERERS);
+    make_select(10, OFFSET + 3 * SPACING, IFS_LIST);
+    make_select(10, OFFSET + 4 * SPACING, VAR_NORMS);
+    make_select(10, OFFSET + 5 * SPACING, COLOR_MAPPERS);
+    make_select(10, OFFSET + 6 * SPACING, PALETTES);
 }
 
 function windowResized() {
