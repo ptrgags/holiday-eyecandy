@@ -10,8 +10,7 @@ class DFSRenderer extends Renderer {
 
     build(tile_maker, arranger, ifs, color_picker) {
         super.build(tile_maker, arranger, ifs, color_picker);
-
-        this.tile_gens = this.tiles.map((x) => this.dfs_tiles(0, x));
+        this.tile_gen = this.dfs_tiles(0, this.tiles[0]);
     }
 
     *dfs_tiles(depth, tile, xform_index=null) {
@@ -40,31 +39,15 @@ class DFSRenderer extends Renderer {
 
 
     render(gfx, color) {
-        for (let tile_gen of this.tile_gens) {
-            for (let i = 0; i < this.tiles_per_frame; i++) {
-                let tile = tile_gen.next().value;
-                if (tile !== undefined) {
-                    tile.draw(gfx, color);
-                }
+        for (let i = 0; i < this.tiles_per_frame; i++) {
+            let tile = tile_gen.next().value;
+            if (tile !== undefined) {
+                tile.draw(gfx, color);
             }
         }
-
-            /*
-        let new_tiles = [];
-        for (let tile of this.tiles) {
-            tile.draw(gfx, color);
-            let xform = this.ifs.rand_xform;
-            let new_tile = tile.apply_transform(xform);
-            new_tiles.push(new_tile);
-        }
-        this.tiles = new_tiles;
-        */
     }
 
     get label() {
-        return "Depth-First Search";
+        return "Depth-First Search (First Tile Only)";
     }
-
-
-
 }

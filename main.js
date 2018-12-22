@@ -1,8 +1,8 @@
 p5.disableFriendlyErrors = true;
 
 let TILE_MAKERS = new CycleBuffer([
-    new PointMaker(),
     new TraceMaker(),
+    new PointMaker(),
     new RegularPolygonMaker(5, complex(0.5)),
     new RegularPolygonMaker(4, complex(0.5)),
     new RegularPolygonMaker(3, complex(0.5)),
@@ -12,8 +12,8 @@ let TILE_ARRANGERS = new CycleBuffer([
     new RandomCircleArranger(1000, 8.0),
     new RandomSquareArranger(1000, 8.0),
     new RandomSquareArranger(10, 8.0),
-    new CenterArranger(complex(-0.5, 0.5), 10),
-    new CenterArranger(complex(-0.5, 0.5), 1),
+    new CenterArranger(complex(-1.0, 1.0), 10),
+    new CenterArranger(complex(-1.0, 1.0), 1),
 ]);
 
 let RENDERERS = new CycleBuffer([
@@ -102,7 +102,6 @@ function make_select(x, y, options) {
     let sel = createSelect();
     sel.position(x, y);
     for (let [x, i] of options.all) {
-        console.log(x, i, x.label);
         sel.option(x.label, i);
     }
     sel.changed(() => {
@@ -172,6 +171,16 @@ function keyReleased() {
         build();
     } else if (key === " ") {
         SKETCH.toggle_axes();
+        build();
+    }
+}
+
+function mouseWheel(event) {
+    if (event.delta > 0) {
+        SKETCH.scale_down();
+        build();
+    } else if (event.delta < 0) {
+        SKETCH.scale_up();
         build();
     }
 }

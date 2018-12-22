@@ -100,16 +100,16 @@ class Sketch {
     /**
      * zoom in a little
      */
-    scale_up() {
-        this.circle_radius *= this.RESCALE_AMOUNT;
+    scale_up(n=1) {
+        this.circle_radius *= n * this.RESCALE_AMOUNT;
         this.clear_screen();
     }
 
     /**
      * Zoom out a little
      */
-    scale_down() {
-        this.circle_radius /= this.RESCALE_AMOUNT;
+    scale_down(n=1) {
+        this.circle_radius /= n * this.RESCALE_AMOUNT;
         this.clear_screen();
     }
 
