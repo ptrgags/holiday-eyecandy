@@ -71,6 +71,8 @@ let PALETTES = new CycleBuffer([
     new Gradient(['red'], ['blue'], true),
     new Gradient(['blue'], ['purple'], false),
     new Gradient(['blue'], ['green'], true),
+
+    //new CosinePalette(rand_palette_settings())
 ]);
 
 var SKETCH = new Sketch();
