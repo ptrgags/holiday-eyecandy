@@ -25,4 +25,4 @@ let palette_preview = function(sketch) {
     }
 }
 
-//let palette_sketch = new p5(palette_preview);
+let palette_sketch = new p5(palette_preview);

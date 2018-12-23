@@ -92,6 +92,10 @@ class Camera {
         this.zoom /= steps * this.ZOOM_STEP;
     }
 
+    change_zoom(zoom) {
+        this.zoom *= zoom;
+    }
+
     toggle_axes() {
         this.axes_enabled = !this.axes_enabled;
     }

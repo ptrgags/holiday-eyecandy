@@ -142,19 +142,25 @@ var delta = {x: 0, y: 0};
 function init_gestures() {
     center = {x: width / 2, y: height / 2};
 
+    // Set up touch gestures
     gestures = new Hammer(document.body, {preventDefault: true});
+
+    // Pan to pan the camera
     gestures.get('pan').set({'direction': Hammer.DIRECTION_ALL});
     gestures.on('panmove', (event) => {
         CAMERA.pan_move(event);
-        //build();
     });
     gestures.on('panend', (event) => {
         CAMERA.pan_end(event);
         build();
     });
 
+    // pinch to zoom the camera
     gestures.get('pinch').set({ enable: true });
-    gestures.on('pinch', console.log);
+    gestures.on('pinchend', (event) => {
+        CAMERA.change_zoom(event.scale);
+        build();
+    });
 }
 
 function setup() {
@@ -198,15 +204,6 @@ function cycle_options(fwd_key, bwd_key, options_buffer) {
         options_buffer.previous();
         build();
     }
-}
-
-function keyReleased() {
-    // Spacebar toggles the axes
-    if (key === " ") {
-        CAMERA.toggle_axes();
-        build();
-    }
-    return false;
 }
 
 function mouseWheel(event) {
