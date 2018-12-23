@@ -59,3 +59,11 @@ h3 {
     padding-top: 0.2em;
     padding-bottom: 0.2em;
 }
+
+#txt-load-settings {
+    width: 70%;
+}
+
+.palette {
+    margin: auto;
+}

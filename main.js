@@ -111,21 +111,7 @@ function make_select(buffer, id) {
         let i = parseInt(sel.value());
         buffer.advance_to(i);
         build();
-    })
-
-
-    /*
-    let sel = createSelect();
-    sel.position(x, y);
-    for (let [x, i] of options.all) {
-        sel.option(x.label, i);
-    }
-    sel.changed(() => {
-        let i = parseInt(sel.value());
-        options.advance_to(i);
-        build();
-    })
-    */
+    });
 }
 
 function count_combos() {
