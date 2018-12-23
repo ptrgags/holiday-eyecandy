@@ -98,7 +98,23 @@ function build() {
     SKETCH.build(renderer);
 }
 
-function make_select(x, y, options) {
+function make_select(buffer, id) {
+    let full_id = `#dropdown-${id}`;
+    let dropdown = select(full_id);
+    let sel = createSelect(dropdown);
+
+    for (let [x, i] of buffer.all) {
+        sel.option(x.label, i);
+    }
+
+    sel.changed(() => {
+        let i = parseInt(sel.value());
+        buffer.advance_to(i);
+        build();
+    })
+
+
+    /*
     let sel = createSelect();
     sel.position(x, y);
     for (let [x, i] of options.all) {
@@ -109,6 +125,24 @@ function make_select(x, y, options) {
         options.advance_to(i);
         build();
     })
+    */
+}
+
+function count_combos() {
+    let buffers = [
+        TILE_MAKERS,
+        TILE_ARRANGERS,
+        RENDERERS,
+        IFS_LIST,
+        VAR_NORMS,
+        COLOR_MAPPERS,
+        PALETTES
+    ];
+    // Compute the product of the sizes of all the buffers. That is the number
+    // of possible combinations!
+    let combos = buffers.map((x) => x.length).reduce((a, b) => a * b);
+
+    select('#num-combos').html(combos.toLocaleString());
 }
 
 function setup() {
@@ -119,16 +153,15 @@ function setup() {
     SKETCH.setup(width, height);
     build();
 
-    const OFFSET = 10;
-    const SPACING = 20;
+    make_select(TILE_MAKERS, 'tile');
+    make_select(TILE_ARRANGERS, 'arranger');
+    make_select(RENDERERS, 'renderer');
+    make_select(IFS_LIST, 'ifs');
+    make_select(VAR_NORMS, 'variable');
+    make_select(COLOR_MAPPERS, 'mapper');
+    make_select(PALETTES, 'palette');
 
-    make_select(10, OFFSET, TILE_MAKERS);
-    make_select(10, OFFSET + 1 * SPACING, TILE_ARRANGERS);
-    make_select(10, OFFSET + 2 * SPACING, RENDERERS);
-    make_select(10, OFFSET + 3 * SPACING, IFS_LIST);
-    make_select(10, OFFSET + 4 * SPACING, VAR_NORMS);
-    make_select(10, OFFSET + 5 * SPACING, COLOR_MAPPERS);
-    make_select(10, OFFSET + 6 * SPACING, PALETTES);
+    count_combos();
 }
 
 function windowResized() {

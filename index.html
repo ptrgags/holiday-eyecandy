@@ -1,6 +1,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
   <script language="javascript" type="text/javascript" src="libraries/p5.dom.js"></script>
@@ -60,11 +61,82 @@
   <!-- Entry point -->
   <script language="javascript" type="text/javascript" src="main.js"></script>
 
+  <link rel="stylesheet" href="styles/main.css" />
+
   <!-- This line removes any default padding and style.
        You might only need one of these values set. -->
   <style> body {padding: 0; margin: 0;} </style>
 </head>
 
 <body>
+<div class="controls">
+    <h3>Mix and Match:</h3>
+    <div class="row">
+        <div class="label-col">
+            Tile Shape:
+        </div>
+        <div class="dropdown-col">
+            <select id="dropdown-tile">
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="label-col">
+            Tile Arrangement:
+        </div>
+        <div class="dropdown-col">
+            <select id="dropdown-arranger">
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="label-col">
+            Renderer:
+        </div>
+        <div class="dropdown-col">
+            <select id="dropdown-renderer">
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="label-col">
+            Transformations:
+        </div>
+        <div class="dropdown-col">
+            <select id="dropdown-ifs">
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="label-col">
+            Color by:
+        </div>
+        <div class="dropdown-col">
+            <select id="dropdown-variable">
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="label-col">
+            Color Mapping:
+        </div>
+        <div class="dropdown-col">
+            <select id="dropdown-mapper">
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="label-col">
+            Color Palettes:
+        </div>
+        <div class="dropdown-col">
+            <select id="dropdown-palette">
+            </select>
+        </div>
+    </div>
+    <div class="combo-line">
+        <span id="num-combos">?</span> Combinations to explore!
+    </div>
+</div>
 </body>
 </html>
