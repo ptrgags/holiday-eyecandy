@@ -75,7 +75,8 @@ let PALETTES = new CycleBuffer([
     //new CosinePalette(rand_palette_settings())
 ]);
 
-var SKETCH = new Sketch();
+var CAMERA = new Camera();
+var SKETCH = new Sketch(CAMERA);
 
 /**
  * Put all the pieces together
@@ -133,11 +134,37 @@ function count_combos() {
     select('#num-combos').html(combos.toLocaleString());
 }
 
+var gestures;
+
+var center;
+var delta = {x: 0, y: 0};
+
+function init_gestures() {
+    center = {x: width / 2, y: height / 2};
+
+    gestures = new Hammer(document.body, {preventDefault: true});
+    gestures.get('pan').set({'direction': Hammer.DIRECTION_ALL});
+    gestures.on('panmove', (event) => {
+        CAMERA.pan_move(event);
+        //build();
+    });
+    gestures.on('panend', (event) => {
+        CAMERA.pan_end(event);
+        build();
+    });
+
+    gestures.get('pinch').set({ enable: true });
+    gestures.on('pinch', console.log);
+}
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
     background(0);
     frameRate(10);
 
+    init_gestures();
+
+    CAMERA.setup(width, height);
     SKETCH.setup(width, height);
     build();
 
@@ -174,34 +201,20 @@ function cycle_options(fwd_key, bwd_key, options_buffer) {
 }
 
 function keyReleased() {
-    console.log(key);
-    cycle_options('Q', 'A', TILE_MAKERS);
-    cycle_options('W', 'S', TILE_ARRANGERS);
-    cycle_options('E', 'D', RENDERERS);
-    cycle_options('R', 'F', IFS_LIST);
-    cycle_options('T', 'G', VAR_NORMS);
-    cycle_options('Y', 'H', COLOR_MAPPERS);
-    cycle_options('U', 'J', PALETTES);
-
-    // view controls
-    if (key === "i") {
-        SKETCH.scale_up();
-        build();
-    } else if (key === "k") {
-        SKETCH.scale_down();
-        build();
-    } else if (key === " ") {
-        SKETCH.toggle_axes();
+    // Spacebar toggles the axes
+    if (key === " ") {
+        CAMERA.toggle_axes();
         build();
     }
+    return false;
 }
 
 function mouseWheel(event) {
     if (event.delta > 0) {
-        SKETCH.scale_down();
+        CAMERA.zoom_out();
         build();
     } else if (event.delta < 0) {
-        SKETCH.scale_up();
+        CAMERA.zoom_in();
         build();
     }
 }
