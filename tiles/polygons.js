@@ -52,25 +52,38 @@ class Polygon extends Tile {
      * The vertices are specified in world space.
      *
      */
-    constructor(center, points) {
+    constructor(center, points, fill=true, close=true) {
         super(center);
         this.points = points;
+        this.fill = fill;
+        this.close = close;
     }
 
     apply_transform(xform) {
         let new_center = xform.transform_point(this.center);
         let new_points = this.points.map((x) => xform.transform_point(x));
-        return new Polygon(new_center, new_points);
+        return new Polygon(new_center, new_points, this.fill, this.close);
     }
 
     draw(gfx, color) {
         gfx.beginShape();
-        gfx.fill(color);
-        gfx.stroke('black');
+
+        if (this.fill) {
+            gfx.fill(color);
+            gfx.stroke('black');
+        } else {
+            gfx.stroke(color);
+            gfx.noFill();
+        }
+
         for (let point of this.points) {
             gfx.vertex(point.x, point.y);
         }
-        gfx.endShape(CLOSE);
+
+        if(this.close)
+            gfx.endShape(CLOSE);
+        else
+            gfx.endShape();
     }
 
     get str() {

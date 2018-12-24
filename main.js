@@ -8,6 +8,20 @@ let TILE_MAKERS = new CycleBuffer([
     new RegularPolygonMaker(4, complex(0.5)),
     new RegularPolygonMaker(3, complex(0.5)),
     new CircleMaker(),
+
+    // Rose Curves
+    new RoseMaker(3, 2),
+    new RoseMaker(7, 1),
+    new RoseMaker(6, 5),
+    new RoseMaker(5, 9),
+    new RoseMaker(2, 8),
+
+    // Lisajous Curves
+    new LissajousMaker(3, 2),
+    new LissajousMaker(8, 7),
+    new LissajousMaker(6, 7),
+    new LissajousMaker(4, 8),
+    new LissajousMaker(8, 6),
 ]);
 
 let TILE_ARRANGERS = new CycleBuffer([
