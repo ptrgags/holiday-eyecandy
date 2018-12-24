@@ -23,6 +23,9 @@ class LinearMapper extends ColorMapper {
     }
 
     get label() {
-        return `Sawtooth (freq=${this.freq})`;
+        if (this.freq === 1)
+            return 'Linear';
+        else
+            return `Sawtooth (freq=${this.freq})`;
     }
 }

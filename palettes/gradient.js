@@ -1,6 +1,6 @@
 class Gradient extends Palette {
-    constructor(start_color, end_color, hsb=false) {
-        super();
+    constructor(label, start_color, end_color, hsb=false) {
+        super(label);
         this.start_color = start_color;
         this.end_color = end_color;
         this.use_hsb = hsb;
@@ -14,10 +14,5 @@ class Gradient extends Palette {
         let c = lerpColor(start_color, end_color, val);
         colorMode(RGB);
         return c;
-    }
-
-    get label() {
-        let mode = this.use_hsb ? 'HSB' : 'RGB';
-        return `Gradient ${this.start_color} -> ${this.end_color} (${mode})`;
     }
 }

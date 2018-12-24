@@ -69,13 +69,16 @@ let COLOR_MAPPERS = new CycleBuffer([
     new SineMapper(4),
     new LinearMapper(1),
     new LinearMapper(4),
+    new CantorMapper(3, 3),
+    new NoiseMapper()
 ]);
 
 let PALETTES = new CycleBuffer([
-    new Gradient(['red'], ['blue'], true),
-    new Gradient(['blue'], ['purple'], false),
-    new Gradient(['blue'], ['green'], true),
-
+    new Gradient('HSB Rainbow', ['red'], ['blue'], true),
+    new Gradient('Blue and Purple', ['blue'], ['purple'], false),
+    new Gradient('Blue and Green', ['blue'], ['green'], true),
+    new Gradient('Cyan and Orange', ['cyan'], ['orange'], false),
+    new Gradient('Purple and Gold', ['purple'], ['yellow'], false),
     //new CosinePalette(rand_palette_settings())
 ]);
 
