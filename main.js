@@ -25,22 +25,14 @@ let RENDERERS = new CycleBuffer([
 
 let IFS_LIST = new CycleBuffer([
     // Mobius Tracks
-    new ParabolicTracks(complex(0.1), false),
-    new ParabolicTracks(complex(0.01), true),
     new EllipticTracks(0.1, false),
     new EllipticTracks(0.02, true),
     new HyperbolicTracks(1.1, false),
     new HyperbolicTracks(1.05, true),
+    new ParabolicTracks(complex(0.1), false),
+    new ParabolicTracks(complex(0.01), true),
     new LoxodromicTracks(Complex.from_polar(1.1, 0.1), false),
     new LoxodromicTracks(Complex.from_polar(1.03, 0.07), true),
-
-    // Apollonian Gasket
-    new ApollonianGasket(),
-
-    // Simple Affine Transformation fractals like the
-    // Sierpinski triangle
-    new AffineSquare(3),
-    new AffineSquare(4),
 
     // Frieze groups.
     // The first parameter is which frieze group
@@ -55,6 +47,14 @@ let IFS_LIST = new CycleBuffer([
     new Frieze("p2", 1.0),
     new Frieze("p2mg", 4.0),
     new Frieze("p2mm", 2.0),
+
+    // Apollonian Gasket
+    new ApollonianGasket(),
+
+    // Simple Affine Transformation fractals like the
+    // Sierpinski triangle
+    new AffineSquare(3),
+    new AffineSquare(4),
 ]);
 
 let VAR_NORMS = new CycleBuffer([
@@ -86,16 +86,43 @@ let PALETTES = new CycleBuffer([
         [0.5, 0.5, 0.0], [0.5, 0.5, 0.3], [1.0, 0.6, 1.0], [0.4, 0.2, 0.4]),
     new CosinePalette('Violet Teal',
         [0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [0.2, 0.5, 0.4], [0.6, 0.1, 0.8]),
-
-    // TODO: Pick something better
     new CosinePalette('Red and Orange',
         [0.5, 0.5, 0.0], [0.5, 0.5, 0.1], [0.1, 0.8, 0.9], [0.9, 0.6, 0.9]),
-
     new CosinePalette('Random Cosine'),
 ]);
 
-var CAMERA = new Camera();
-var SKETCH = new Sketch(CAMERA);
+// List of all buffers since we sometimes need to iterate over all the
+// dropdowns
+let BUFFERS = [
+    TILE_MAKERS,
+    TILE_ARRANGERS,
+    RENDERERS,
+    IFS_LIST,
+    VAR_NORMS,
+    COLOR_MAPPERS,
+    PALETTES
+];
+let BUFFER_IDS = [
+    'tile',
+    'arranger',
+    'renderer',
+    'ifs',
+    'variable',
+    'mapper',
+    'palette'
+];
+
+let CAMERA = new Camera();
+let SKETCH = new Sketch(CAMERA);
+
+// Encode the settings as a base64 encoded array of indices. These
+// correspond to the positions in the
+function update_settings_code() {
+    let indices = BUFFERS.map((x) => x.index);
+    let json = JSON.stringify(indices);
+    let b64 = btoa(json);
+    select('#current-settings').html(b64);
+}
 
 /**
  * Put all the pieces together
@@ -114,6 +141,9 @@ function build() {
     let color_mapper = COLOR_MAPPERS.current;
     let palette = PALETTES.current;
     let color_picker = new ColorPicker(var_norm, color_mapper, palette);
+
+    // Update the settings code
+    update_settings_code();
 
     // Rebuild the sketch
     renderer.build(tile_maker, arranger, ifs, color_picker);
@@ -137,18 +167,10 @@ function make_select(buffer, id) {
 }
 
 function count_combos() {
-    let buffers = [
-        TILE_MAKERS,
-        TILE_ARRANGERS,
-        RENDERERS,
-        IFS_LIST,
-        VAR_NORMS,
-        COLOR_MAPPERS,
-        PALETTES
-    ];
+
     // Compute the product of the sizes of all the buffers. That is the number
     // of possible combinations!
-    let combos = buffers.map((x) => x.length).reduce((a, b) => a * b);
+    let combos = BUFFERS.map((x) => x.length).reduce((a, b) => a * b);
 
     select('#num-combos').html(combos.toLocaleString());
 }
@@ -162,7 +184,9 @@ function init_gestures() {
     center = {x: width / 2, y: height / 2};
 
     // Set up touch gestures
-    gestures = new Hammer(document.body, {preventDefault: true});
+    let canvas = select('#defaultCanvas0').elt;
+    //console.log(canvas);
+    gestures = new Hammer(canvas, {preventDefault: true});
 
     // Pan to pan the camera
     gestures.get('pan').set({'direction': Hammer.DIRECTION_ALL});
@@ -182,24 +206,68 @@ function init_gestures() {
     });
 }
 
+/**
+ * Initialize setting presets and the load button
+ */
+function init_settings() {
+    select('#btn-load-settings').mouseClicked(() => {
+        let text = select('#txt-load-settings').value();
+        try {
+            // Decode the settings array
+            let decoded = JSON.parse(atob(text));
+
+            // unselect the current preset
+            select('#dropdown-preset').value("");
+
+            // Load a fake preset from the decoded settings
+            load_preset({settings: decoded});
+        } catch(e) {
+            console.log(e);
+            alert('Not a valid settings code. '
+                + 'Copy and paste a code from "Current Settings"')
+        }
+    })
+}
+
+function load_preset(preset) {
+    // Validate the input array since this comes from user input
+    if (!Array.isArray(preset.settings)) {
+        throw new TypeError("preset.settings must be an array");
+    }
+    if (preset.settings.length != BUFFERS.length) {
+        throw new TypeError(
+            `preset.settings must have exactly ${BUFFERS.length} settings`);
+    }
+
+    for (let i = 0; i < BUFFERS.length; i++) {
+        let id = BUFFER_IDS[i];
+        let full_id = `#dropdown-${id}`;
+        let val = preset.settings[i];
+
+        // Set the buffers and UI to the setting from the preset
+        BUFFERS[i].advance_to(val);
+        select(full_id).value(val);
+        build();
+    }
+}
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
     background(0);
     frameRate(FPS);
 
     init_gestures();
+    init_settings();
 
     CAMERA.setup(width, height);
     SKETCH.setup(width, height);
     build();
 
-    make_select(TILE_MAKERS, 'tile');
-    make_select(TILE_ARRANGERS, 'arranger');
-    make_select(RENDERERS, 'renderer');
-    make_select(IFS_LIST, 'ifs');
-    make_select(VAR_NORMS, 'variable');
-    make_select(COLOR_MAPPERS, 'mapper');
-    make_select(PALETTES, 'palette');
+    for (let i = 0; i < BUFFERS.length; i++) {
+        let buffer = BUFFERS[i];
+        let id = BUFFER_IDS[i];
+        make_select(buffer, id);
+    }
 
     count_combos();
 }

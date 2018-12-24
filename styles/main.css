@@ -67,3 +67,7 @@ h3 {
 .palette {
     margin: auto;
 }
+
+#current-settings {
+    font-size: 80%;
+}
