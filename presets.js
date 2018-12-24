@@ -1,5 +1,7 @@
 /**
  * A collection of settings presets.
+ *
+ * WzE1LDIsMCwxLDAsMCwxMF0=
  */
 let PRESETS = [
     {

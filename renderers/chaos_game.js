@@ -2,6 +2,7 @@ class ChaosGame extends Renderer {
     render(gfx) {
         let new_tiles = [];
         for (let tile of this.tiles) {
+            this.stats.tile_center = tile.center;
             tile.draw(gfx, this.tile_color);
             this.stats.tiles_drawn++;
 

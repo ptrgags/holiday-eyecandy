@@ -15,6 +15,7 @@ class Renderer {
         this.stats = {
             frame: 0,
             tiles_drawn: 0,
+            tile_center: complex(0),
             iterations: 0,
             max_iters: 1000,
         }

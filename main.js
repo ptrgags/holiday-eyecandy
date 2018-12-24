@@ -76,6 +76,10 @@ let VAR_NORMS = new CycleBuffer([
     new FrameCountNormalizer(100),
     new NumTilesNormalizer(1000),
     new IterationNormalizer(),
+    new PositionNormalizer('x', 10.0),
+    new PositionNormalizer('y', 10.0),
+    new PositionNormalizer('r', 10.0),
+    new PositionNormalizer('theta', 2.0 * Math.PI),
 ]);
 
 

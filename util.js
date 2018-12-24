@@ -16,6 +16,15 @@ let mod = function(n, m) {
 }
 
 /**
+ * Using the definition
+ *
+ * a % b == a - floor(a / b) * b
+ */
+let fmod = function(val, n) {
+    return val - Math.floor(val / n) * n;
+}
+
+/**
  * this is a common idiom for me
  */
 let log = function(x) {

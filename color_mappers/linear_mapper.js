@@ -10,16 +10,7 @@ class LinearMapper extends ColorMapper {
     }
 
     map_color(val) {
-        return this.fmod(this.freq * val, 1.0);
-    }
-
-    /**
-     * Using the definition
-     *
-     * a % b == a - floor(a / b) * b
-     */
-    fmod(val, n) {
-        return val - Math.floor(val / n) * n;
+        return fmod(this.freq * val, 1.0);
     }
 
     get label() {

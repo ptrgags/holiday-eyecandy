@@ -137,6 +137,7 @@ class DFSRenderer extends Renderer {
         for (let i = 0; i < this.render_speed; i++) {
             let tile = this.tile_gen.next().value;
             if (tile !== undefined) {
+                this.stats.tile_center = tile.center;
                 tile.draw(gfx, this.tile_color);
                 this.stats.tiles_drawn++;
             } else {
