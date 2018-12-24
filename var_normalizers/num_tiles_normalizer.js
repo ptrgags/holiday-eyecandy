@@ -18,4 +18,8 @@ class NumTilesNormalizer extends VariableNormalizer {
     get label() {
         return "Tiles Drawn";
     }
+
+    get id() {
+        return 'var-num-tiles';
+    }
 }

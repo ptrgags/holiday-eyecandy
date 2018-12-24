@@ -23,7 +23,22 @@ class RegularPolygonMaker extends TileMaker {
             return "Hexagons";
         } else {
             // I don't want to sit here forever.
-            return `${this.sides}-gon`;
+            return `${this.sides}-gons`;
+        }
+    }
+
+    get id() {
+        if (this.sides === 3) {
+            return "tile-triangles";
+        } else if (this.sides === 4) {
+            return "tile-squares";
+        } else if (this.sides === 5) {
+            return "tile-pentagons";
+        } else if (this.sides === 6) {
+            return "tile-hexagons";
+        } else {
+            // I don't want to sit here forever.
+            return `tile-${this.sides}-gons`;
         }
     }
 }

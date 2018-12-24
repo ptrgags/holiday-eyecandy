@@ -28,4 +28,11 @@ class LinearMapper extends ColorMapper {
         else
             return `Sawtooth (freq=${this.freq})`;
     }
+
+    get id() {
+        if (this.freq === 1)
+            return 'map-linear';
+        else
+            return `map-saw-${this.freq}`;
+    }
 }

@@ -55,6 +55,13 @@ class LoxodromicTracks extends MobiusTracks {
         let nickname = this.conjugate ? 'Double Spiral' : 'Spiral';
         return `Loxodromic ("${nickname}")`;
     }
+
+    get id() {
+        if (this.conjugate)
+            return 'ifs-loxodromic-double';
+        else
+            return 'ifs-loxodromic-single';
+    }
 }
 
 
@@ -79,6 +86,13 @@ class HyperbolicTracks extends LoxodromicTracks {
         let nickname = this.conjugate ? 'Source & Sink' : 'Hyperspace';
         return `Hyperbolic ("${nickname}")`;
     }
+
+    get id() {
+        if (this.conjugate)
+            return 'ifs-hyperbolic-source-sink';
+        else
+            return 'ifs-hyperbolic-hyperspace';
+    }
 }
 
 
@@ -100,6 +114,13 @@ class EllipticTracks extends LoxodromicTracks {
     get label() {
         let nickname = this.conjugate ? 'Parallel Circles' : 'Rings';
         return `Elliptic ("${nickname}")`;
+    }
+
+    get id() {
+        if (this.conjugate)
+            return 'ifs-elliptic-parallel-circles';
+        else
+            return 'ifs-elliptic-rings';
     }
 }
 
@@ -131,5 +152,12 @@ class ParabolicTracks extends MobiusTracks {
     get label() {
         let nickname = this.conjugate ? 'Tangent Circles' : 'Back and Forth';
         return `Parabolic ("${nickname}")`;
+    }
+
+    get id() {
+        if (this.conjugate)
+            return 'ifs-parabolic-tangent-circles';
+        else
+            return 'ifs-parabolic-back-and-forth';
     }
 }

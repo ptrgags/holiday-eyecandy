@@ -59,4 +59,8 @@ class Frieze extends IFS {
     get label() {
         return `Frieze Group ${this.frieze_type}`;
     }
+
+    get id() {
+        return `ifs-frieze-${this.frieze_type}`;
+    }
 }

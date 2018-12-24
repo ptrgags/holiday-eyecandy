@@ -74,21 +74,23 @@ let COLOR_MAPPERS = new CycleBuffer([
 ]);
 
 let PALETTES = new CycleBuffer([
-    new Gradient('HSB Rainbow', ['red'], ['blue'], true),
-    new Gradient('Blue and Purple', ['blue'], ['purple'], false),
-    new Gradient('Blue and Green', ['blue'], ['green'], true),
-    new Gradient('Cyan and Orange', ['cyan'], ['orange'], false),
-    new Gradient('Purple and Gold', ['purple'], ['yellow'], false),
-    new Gradient('Grayscale', ['black'], ['white'], false),
-    new CosinePalette('Steel',
+    new Gradient('HSB Rainbow', 'hsb-rainbow', ['red'], ['blue'], true),
+    new Gradient('Blue and Purple', 'blue-purple', ['blue'], ['purple'], false),
+    new Gradient('Blue and Green', 'blue-green', ['blue'], ['green'], true),
+    new Gradient('Black and Red', 'black-red', ['black'], ['red'], false),
+    new Gradient('Cyan and Orange', 'cyan-orange', ['cyan'], ['orange'], false),
+    new Gradient(
+        'Purple and Gold', 'royal', ['purple'], ['yellow'], false),
+    new Gradient('Grayscale', 'grayscale', ['black'], ['white'], false),
+    new CosinePalette('Steel', 'steel',
         [0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [1.0, 1.0, 1.0], [0.1, 0.2, 0.3]),
-    new CosinePalette('Watermelon',
+    new CosinePalette('Watermelon', 'watermelon',
         [0.5, 0.5, 0.0], [0.5, 0.5, 0.3], [1.0, 0.6, 1.0], [0.4, 0.2, 0.4]),
-    new CosinePalette('Violet Teal',
+    new CosinePalette('Violet Teal', 'violet-teal',
         [0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [0.2, 0.5, 0.4], [0.6, 0.1, 0.8]),
-    new CosinePalette('Red and Orange',
+    new CosinePalette('Red and Yellow', 'red-yellow',
         [0.5, 0.5, 0.0], [0.5, 0.5, 0.1], [0.1, 0.8, 0.9], [0.9, 0.6, 0.9]),
-    new CosinePalette('Random Cosine'),
+    new CosinePalette('Random Cosine', 'rand-cosine'),
 ]);
 
 // List of all buffers since we sometimes need to iterate over all the
@@ -185,7 +187,6 @@ function init_gestures() {
 
     // Set up touch gestures
     let canvas = select('#defaultCanvas0').elt;
-    //console.log(canvas);
     gestures = new Hammer(canvas, {preventDefault: true});
 
     // Pan to pan the camera
@@ -206,10 +207,30 @@ function init_gestures() {
     });
 }
 
+function make_preset_dropdown() {
+    let dropdown = select('#dropdown-preset');
+    let sel = createSelect(dropdown);
+    for (let [i, preset] of PRESETS.entries()) {
+        sel.option(preset.label, i);
+    }
+    sel.changed(() => {
+        let i = parseInt(sel.value());
+        let preset = PRESETS[i];
+        // Look up the settings indices from the cycle buffer
+        let settings = preset.settings.map(
+            (id, i) => BUFFERS[i].find_index(id));
+        load_preset(settings);
+    });
+}
+
 /**
  * Initialize setting presets and the load button
  */
 function init_settings() {
+
+    make_preset_dropdown();
+
+    // Handle loading settings
     select('#btn-load-settings').mouseClicked(() => {
         let text = select('#txt-load-settings').value();
         try {
@@ -220,21 +241,21 @@ function init_settings() {
             select('#dropdown-preset').value("");
 
             // Load a fake preset from the decoded settings
-            load_preset({settings: decoded});
+            load_preset(decoded);
         } catch(e) {
             console.log(e);
             alert('Not a valid settings code. '
                 + 'Copy and paste a code from "Current Settings"')
         }
-    })
+    });
 }
 
-function load_preset(preset) {
+function load_preset(settings) {
     // Validate the input array since this comes from user input
-    if (!Array.isArray(preset.settings)) {
-        throw new TypeError("preset.settings must be an array");
+    if (!Array.isArray(settings)) {
+        throw new TypeError("settings must be an array");
     }
-    if (preset.settings.length != BUFFERS.length) {
+    if (settings.length != BUFFERS.length) {
         throw new TypeError(
             `preset.settings must have exactly ${BUFFERS.length} settings`);
     }
@@ -242,7 +263,7 @@ function load_preset(preset) {
     for (let i = 0; i < BUFFERS.length; i++) {
         let id = BUFFER_IDS[i];
         let full_id = `#dropdown-${id}`;
-        let val = preset.settings[i];
+        let val = settings[i];
 
         // Set the buffers and UI to the setting from the preset
         BUFFERS[i].advance_to(val);

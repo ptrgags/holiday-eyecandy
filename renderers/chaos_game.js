@@ -19,4 +19,8 @@ class ChaosGame extends Renderer {
         return "Chaos Game";
     }
 
+    get id() {
+        return 'renderer-chaos-game';
+    }
+
 }

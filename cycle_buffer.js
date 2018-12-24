@@ -56,6 +56,21 @@ class CycleBuffer {
     }
 
     /**
+     * Find the index of an element with the given id
+     */
+    find_index(id) {
+        // Linear search, but there's not going to be that many items
+        // to search through.
+        let filtered = this.all.filter(([x, i]) => x.id === id);
+        if (filtered.length < 1) {
+            return -1;
+        } else {
+            let [, idx] = filtered[0];
+            return idx;
+        }
+    }
+
+    /**
      * like this.all except we exclude the element that matches
      * the index
      */

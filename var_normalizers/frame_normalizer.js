@@ -16,4 +16,8 @@ class FrameCountNormalizer extends VariableNormalizer {
     get label() {
         return "Frame Count";
     }
+
+    get id() {
+        return 'var-frame';
+    }
 }

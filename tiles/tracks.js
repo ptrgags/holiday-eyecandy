@@ -6,6 +6,10 @@ class TraceMaker extends TileMaker {
     get label() {
         return "Motion Traces";
     }
+
+    get id() {
+        return 'tile-traces';
+    }
 }
 
 class Trace extends Tile {

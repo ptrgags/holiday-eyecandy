@@ -55,4 +55,8 @@ class CantorMapper extends ColorMapper {
         return "Cantor Set";
     }
 
+    get id() {
+        return 'map-cantor';
+    }
+
 }

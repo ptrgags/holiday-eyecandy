@@ -18,6 +18,10 @@ class RandomSquareArranger extends TileArranger {
     get label() {
         return `Square of ${this.num_tiles} Random Tile(s)`
     }
+
+    get id() {
+        return `arranger-square-${this.num_tiles}`;
+    }
 }
 
 class RandomCircleArranger extends TileArranger {
@@ -39,5 +43,9 @@ class RandomCircleArranger extends TileArranger {
 
     get label() {
         return `Circle of ${this.num_tiles} Random Tile(s)`
+    }
+
+    get id() {
+        return `arranger-circle-${this.num_tiles}`;
     }
 }

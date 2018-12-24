@@ -149,4 +149,8 @@ class DFSRenderer extends Renderer {
     get label() {
         return "Depth-First Search";
     }
+
+    get id() {
+        return 'renderer-dfs';
+    }
 }

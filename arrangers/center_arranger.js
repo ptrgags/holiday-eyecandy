@@ -22,4 +22,8 @@ class CenterArranger extends TileArranger {
     get label() {
         return `${this.num_tiles} tile(s) at ${this.center.str}`;
     }
+
+    get id() {
+        return `arranger-center-${this.num_tiles}`;
+    }
 }

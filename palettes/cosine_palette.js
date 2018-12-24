@@ -1,6 +1,6 @@
 class CosinePalette extends Palette {
-    constructor(label, a, b, c, d) {
-        super(label);
+    constructor(label, id, a, b, c, d) {
+        super(label, id);
         this.a = a || rand_array(3);
         this.b = b || rand_array(3);
         this.c = c || rand_array(3);

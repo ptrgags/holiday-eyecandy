@@ -10,4 +10,8 @@ class IterationNormalizer extends VariableNormalizer {
     get label() {
         return "Iteration/Depth";
     }
+
+    get id() {
+        return 'var-iters';
+    }
 }

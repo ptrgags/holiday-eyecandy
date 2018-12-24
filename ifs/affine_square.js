@@ -23,10 +23,17 @@ class AffineSquare extends IFS{
         return false;
     }
 
-    get label () {
+    get label() {
         if (this.num_squares === 3)
             return 'Sierpinski Triangle';
         else
             return 'Big Square';
+    }
+
+    get id() {
+        if (this.num_squares === 3)
+            return 'ifs-sierpinski';
+        else
+            return 'ifs-big-square';
     }
 }

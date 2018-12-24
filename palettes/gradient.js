@@ -1,6 +1,6 @@
 class Gradient extends Palette {
-    constructor(label, start_color, end_color, hsb=false) {
-        super(label);
+    constructor(label, id, start_color, end_color, hsb=false) {
+        super(label, id);
         this.start_color = start_color;
         this.end_color = end_color;
         this.use_hsb = hsb;

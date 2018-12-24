@@ -11,4 +11,8 @@ class SineMapper extends ColorMapper {
     get label() {
         return `Sine (freq=${this.freq})`;
     }
+
+    get id() {
+        return `map-sine-${this.freq}`;
+    }
 }

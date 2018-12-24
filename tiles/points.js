@@ -6,6 +6,10 @@ class PointMaker extends TileMaker {
     get label() {
         return "Points";
     }
+
+    get id() {
+        return 'tile-points';
+    }
 }
 
 class Point extends Tile {

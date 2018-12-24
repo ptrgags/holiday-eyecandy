@@ -22,4 +22,8 @@ class NoiseMapper extends ColorMapper{
     get label() {
         return "Noise";
     }
+
+    get id() {
+        return `map-noise`;
+    }
 }
