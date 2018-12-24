@@ -81,6 +81,14 @@ class ComplexTransform extends Transform {
             return new ComplexTransform(new_mult, new_offset, false);
     }
 
+    /**
+     * If this transform is S and the other xform is T,
+     * compute S' = TST^-1
+     */
+    conjugate_by(xform) {
+        return xform.inverse.then(this).then(xform);
+    }
+
     get str() {
         let conj_str = this.mirror ? ".conj" : "";
         return `f(z) = ${this.multiplier.str} * z${conj_str} `

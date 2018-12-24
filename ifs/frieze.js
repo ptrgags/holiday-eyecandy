@@ -1,5 +1,5 @@
 /**
- * There are 7 frize
+ * There are 7 frieze patterns. This IFS includes them all!
  */
 class Frieze extends IFS {
     constructor(frieze_type, cell_size=1.0) {

@@ -7,7 +7,7 @@ let TILE_MAKERS = new CycleBuffer([
     new RegularPolygonMaker(5, complex(0.5)),
     new RegularPolygonMaker(4, complex(0.5)),
     new RegularPolygonMaker(3, complex(0.5)),
-    new CircleMaker(),
+    new CircleMaker(0.5),
 
     // Rose Curves
     new RoseMaker(3, 2),
@@ -62,6 +62,17 @@ let IFS_LIST = new CycleBuffer([
     new Frieze("p2", 1.0),
     new Frieze("p2mg", 4.0),
     new Frieze("p2mm", 2.0),
+
+    // 17 Wallpaper groups.
+    new Wallpaper("p1", 1.0),
+    new Wallpaper("p2", 1.0),
+    new Wallpaper("pm", 1.0),
+    new Wallpaper("pg", 1.0),
+    // cm
+    new Wallpaper("pmm", 1.0),
+    new Wallpaper("pmg", 1.0),
+    // More here
+    new Wallpaper("p4", 1.0),
 
     // Apollonian Gasket
     new ApollonianGasket(),
