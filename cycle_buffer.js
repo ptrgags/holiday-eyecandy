@@ -61,7 +61,7 @@ class CycleBuffer {
      */
     all_except(index) {
         let reduced_index = mod(index, this.elements.length);
-        return this.all.filter(([, i]) => i != index);
+        return this.all.filter(([, i]) => i != reduced_index);
     }
 
     map(func) {

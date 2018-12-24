@@ -1,4 +1,5 @@
 p5.disableFriendlyErrors = true;
+let FPS = 10;
 
 let TILE_MAKERS = new CycleBuffer([
     new TraceMaker(),
@@ -18,7 +19,8 @@ let TILE_ARRANGERS = new CycleBuffer([
 
 let RENDERERS = new CycleBuffer([
     new ChaosGame(),
-    new DFSRenderer(5, 5)
+    // Render at most 1M tiles over the course of 30 seconds
+    new DFSRenderer(1000000, 30 * FPS)
 ])
 
 let IFS_LIST = new CycleBuffer([
@@ -166,7 +168,7 @@ function init_gestures() {
 function setup() {
     createCanvas(windowWidth, windowHeight);
     background(0);
-    frameRate(10);
+    frameRate(FPS);
 
     init_gestures();
 

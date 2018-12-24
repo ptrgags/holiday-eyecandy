@@ -40,7 +40,7 @@ class IFS {
         return [this.xforms.get_item(index), index];
     }
 
-    get all_xforms() { 
+    get all_xforms() {
         return this.xforms.all;
     }
 
