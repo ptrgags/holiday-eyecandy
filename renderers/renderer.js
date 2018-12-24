@@ -16,6 +16,7 @@ class Renderer {
             frame: 0,
             tiles_drawn: 0,
             iterations: 0,
+            max_iters: 1000,
         }
     }
 
@@ -30,7 +31,7 @@ class Renderer {
 
         // Reset the stats
         this.reset_stats();
-        
+
         // Initialize the first set of tiles.
         // subclasses will handle everything that happens
         // to them.
@@ -51,16 +52,22 @@ class Renderer {
         this.stats.num_tiles = this.tiles.length;
     }
 
+    /**
+     * Calculate the color for the next tile.
+     * call this immediately before drawing a tile.
+     */
+    get tile_color() {
+        return this.color_picker.pick_color(this.stats);
+    }
+
     draw(gfx) {
-        // TODO: Pick color here
-        let color = this.color_picker.pick_color(this.stats);
-        this.render(gfx, color);
+        this.render(gfx);
 
         // Update the rendered frame count
         this.stats.frame++;
     }
 
-    render(gfx, color) {
+    render(gfx) {
         throw new TypeError("Implement in Subclass!");
     }
 }

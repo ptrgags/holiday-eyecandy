@@ -35,6 +35,9 @@ class DFSRenderer extends Renderer {
         // the depth is linear instead of logarithmic.
         this.max_depth = Math.min(this.max_depth, this.DEPTH_LIMIT);
 
+        // Update the stats
+        this.stats.max_iters = this.max_depth;
+
         // Calculate the number of tiles that will be generated
         // and divide by the number of frames we want to animate for
         this.render_speed = this.total_tiles / this.animation_frames;
@@ -100,6 +103,8 @@ class DFSRenderer extends Renderer {
     }
 
     *dfs_tiles(depth, tile, xform_index=null) {
+        // Color by the most recent recursive call.
+        this.stats.iterations = depth;
         if (depth == this.max_depth)
             yield tile;
         else if (depth === 0) {
@@ -125,15 +130,14 @@ class DFSRenderer extends Renderer {
         }
     }
 
-
-    render(gfx, color) {
+    render(gfx) {
         if (this.finished)
             return;
 
         for (let i = 0; i < this.render_speed; i++) {
             let tile = this.tile_gen.next().value;
             if (tile !== undefined) {
-                tile.draw(gfx, color);
+                tile.draw(gfx, this.tile_color);
                 this.stats.tiles_drawn++;
             } else {
                 this.finished = true;

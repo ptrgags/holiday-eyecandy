@@ -59,6 +59,8 @@ let IFS_LIST = new CycleBuffer([
 
 let VAR_NORMS = new CycleBuffer([
     new FrameCountNormalizer(100),
+    new NumTilesNormalizer(1000),
+    new IterationNormalizer(),
 ]);
 
 

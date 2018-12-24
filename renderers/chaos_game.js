@@ -1,8 +1,8 @@
 class ChaosGame extends Renderer {
-    render(gfx, color) {
+    render(gfx) {
         let new_tiles = [];
         for (let tile of this.tiles) {
-            tile.draw(gfx, color);
+            tile.draw(gfx, this.tile_color);
             this.stats.tiles_drawn++;
 
             // Apply a random transformation, including inverses.
