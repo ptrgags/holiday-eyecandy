@@ -7,6 +7,7 @@ let TILE_MAKERS = new CycleBuffer([
     new RegularPolygonMaker(5, complex(0.5)),
     new RegularPolygonMaker(4, complex(0.5)),
     new RegularPolygonMaker(3, complex(0.5)),
+    new CircleMaker(),
 ]);
 
 let TILE_ARRANGERS = new CycleBuffer([

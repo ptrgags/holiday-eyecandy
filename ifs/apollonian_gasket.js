@@ -19,7 +19,7 @@ class ApollonianGasket extends IFS {
         return "Apollonian Gasket";
     }
 
-    get label() {
+    get id() {
         return 'ifs-gasket';
     }
 }
