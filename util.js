@@ -22,6 +22,10 @@ let log = function(x) {
     console.log(x.str);
 }
 
+let rand_array = function(n) {
+    return Array(n).fill(0).map(x => Math.random());
+}
+
 /**
  * Pair two Clines
  */

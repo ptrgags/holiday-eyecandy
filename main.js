@@ -79,7 +79,19 @@ let PALETTES = new CycleBuffer([
     new Gradient('Blue and Green', ['blue'], ['green'], true),
     new Gradient('Cyan and Orange', ['cyan'], ['orange'], false),
     new Gradient('Purple and Gold', ['purple'], ['yellow'], false),
-    //new CosinePalette(rand_palette_settings())
+    new Gradient('Grayscale', ['black'], ['white'], false),
+    new CosinePalette('Steel',
+        [0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [1.0, 1.0, 1.0], [0.1, 0.2, 0.3]),
+    new CosinePalette('Watermelon',
+        [0.5, 0.5, 0.0], [0.5, 0.5, 0.3], [1.0, 0.6, 1.0], [0.4, 0.2, 0.4]),
+    new CosinePalette('Violet Teal',
+        [0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [0.2, 0.5, 0.4], [0.6, 0.1, 0.8]),
+
+    // TODO: Pick something better
+    new CosinePalette('Red and Orange',
+        [0.5, 0.5, 0.0], [0.5, 0.5, 0.1], [0.1, 0.8, 0.9], [0.9, 0.6, 0.9]),
+
+    new CosinePalette('Random Cosine'),
 ]);
 
 var CAMERA = new Camera();
