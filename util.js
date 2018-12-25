@@ -16,6 +16,26 @@ let mod = function(n, m) {
 }
 
 /**
+ * Using the definition
+ *
+ * a % b == a - floor(a / b) * b
+ */
+let fmod = function(val, n) {
+    return val - Math.floor(val / n) * n;
+}
+
+/**
+ * this is a common idiom for me
+ */
+let log = function(x) {
+    console.log(x.str);
+}
+
+let rand_array = function(n) {
+    return Array(n).fill(0).map(x => Math.random());
+}
+
+/**
  * Pair two Clines
  */
 function pair_circles(c1, c2, extra_xform) {

@@ -1,0 +1,77 @@
+html {
+    color: white;
+    background-color: black;
+    font-family: sans-serif;
+    font-size: 100%;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.controls {
+    background-color: black;
+    position: absolute;
+
+    width: 100%;
+    /*min-width: 320px;*/
+}
+
+@media screen and (min-width: 600px) {
+    .controls {
+        width: auto;
+    }
+}
+
+h3, h4 {
+    text-align: center;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.row {
+    display: flex;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
+.label-col {
+    padding-left: 0.5em;
+    padding-right: 0.25em;
+    width: 40%;
+}
+
+.dropdown-col {
+    margin: auto;
+    padding-left: 0.25em;
+    padding-right: 0.5em;
+    width: 55%;
+}
+
+.dropdown-col select {
+    width: 100%;
+}
+
+.combo-line {
+    text-align: center;
+    padding-left: 0.25em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
+#txt-load-settings {
+    width: 70%;
+}
+
+.palette {
+    margin: auto;
+}
+
+#current-settings {
+    font-size: 80%;
+}
+
+.links {
+    text-align: center;
+}

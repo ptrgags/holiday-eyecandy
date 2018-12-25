@@ -4,15 +4,16 @@ class MobiusTransform extends Transform {
         this.coeffs = coeffs;
     }
     
-    transform(vec) {
-        let z = new Complex(vec.x, vec.y);
-
+    transform_point(z) {
         let [a, b, c, d] = this.coeffs;
         let numerator = a.mult(z).add(b);
         let denominator = c.mult(z).add(d);
 
-        let result = numerator.div(denominator);
-        return result.coords; 
+        return numerator.div(denominator);
+    }
+
+    get is_invertible() {
+        return true;
     }
 
     /**
@@ -56,14 +57,7 @@ class MobiusTransform extends Transform {
      * via complex matrix multiplication
      */
     then(xform) {
-        if (xform instanceof MobiusTransform) {
-            return xform.multiply_xforms(this);
-        } else if (xform instanceof TransformationChain) {
-            return xform.after(this);
-        } else {
-            // Start a transformation chain
-            return new TransformationChain([this, xform]);
-        }
+        return xform.multiply_xforms(this);
     }
 
     /**
@@ -76,10 +70,10 @@ class MobiusTransform extends Transform {
         return inv.then(this).then(xform);
     }
 
-    toString() {
+    get str() {
         let [a, b, c, d] = this.coeffs;
-        let top_string = `${a.toString()}z + ${b.toString()}`;
-        let bottom_string = `${c.toString()}z + ${d.toString()}`;
+        let top_string = `${a.str}z + ${b.str}`;
+        let bottom_string = `${c.str}z + ${d.str}`;
         let n = Math.max(top_string.length, bottom_string.length);
         let dashes = "-".repeat(n);
         return `${top_string}\n${dashes}\n${bottom_string}`;
@@ -114,8 +108,6 @@ class MobiusTransform extends Transform {
      * Quarter turn CCW around the x-axis on the Riemann sphere
      */
     static x90() {
-        let i = new Complex(0, 1);
-        let neg_one = new Complex(-1, 0);
         return new MobiusTransform([
             complex.i(), complex.neg_one(),
             complex.neg_one(), complex.i(),
