@@ -31,6 +31,6 @@ class PositionNormalizer extends VariableNormalizer {
     }
 
     get id() {
-        return `var-${this.var}`;
+        return `var-pos-${this.var}`;
     }
 }

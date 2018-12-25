@@ -110,7 +110,7 @@ let PALETTES = new CycleBuffer([
     new Gradient('Black and Red', 'black-red', ['black'], ['red'], false),
     new Gradient('Cyan and Orange', 'cyan-orange', ['cyan'], ['orange'], false),
     new Gradient(
-        'Purple and Gold', 'royal', ['purple'], ['yellow'], false),
+        'Royal', 'royal', ['purple'], ['yellow'], false),
     new Gradient('Grayscale', 'grayscale', ['black'], ['white'], false),
     new CosinePalette('Steel', 'steel',
         [0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [1.0, 1.0, 1.0], [0.1, 0.2, 0.3]),
